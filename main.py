@@ -7,7 +7,6 @@ from sprites import *
 
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
-movement =[1,0,-1]
 
 num_lions = 3
 lion_group = pygame.sprite.Group()
