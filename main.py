@@ -56,11 +56,13 @@ class Game:
                 if tile =='.':
                     Grass(self,col,row)
                     valid_spawning_area.append((col,row))
+                    
         #generate random spawning lions
         for i in range(num_lions):
             randxy = [random.choice(valid_spawning_area)]
             self.lion = Lion(self,randxy[0][0],randxy[0][1])
             lion_group.add(self.lion)
+    
 
         #generate random spawning wolves
         for i in range(num_wolves):
@@ -110,9 +112,22 @@ class Game:
     def events(self):
     #random lion movement 
         for lion in lion_group:
-            x = random.randint(-1,1); y= random.randint(-1,1)
-            lion.move(x,y)
+            #if lion is not hunting and is able to hunt(for example not breeding)
+            if lion.hunting == False and lion.can_hunt == True:
+                lion.hunt()
+            #if lion is not breeding and is able to breed i.e. not hungry, not thirsty and not hunting 
+            if lion.breeding == False and lion.can_breed == True:
+                lion.breed()
+            #if lion is not hunting and not breeding but thirsty then drink
+            if lion.hunting == False and lion.breeding == False and lion.thirsty == True:
+                lion.drink()
+            #otherwise do random movements
+            else:
+                x = random.randint(-1,1); y= random.randint(-1,1)
+                lion.move(x,y)
+                lion.hunger_limit = lion.hunger_limit - random.randint(0,5)
         
+
     #random wolf movement
         for wolf in wolf_group:
             x = random.randint(-1,1); y= random.randint(-1,1)

@@ -1,8 +1,10 @@
 import pygame
 from config import *
+import random
 
 class Lion(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
+        #need to add hunger, thirst, mating to all animals which dictates their movement - hunger move to prey animal - thirst move towards water - mate -move towards female/male counterpart 
         self.groups = game.all_sprites, game.boundary
         pygame.sprite.Sprite.__init__(self,self.groups)
         self.game =game
@@ -13,6 +15,15 @@ class Lion(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+        self.hunger_limit = 30
+        self.hunting = False 
+        self.can_hunt = True
+        self.thirst_limit = 50
+        self.thirsty = True
+        self.can_breed = True
+        self.breeding = True
+        self.breeding_cooldown = 100
+        self.gender = random.choice(['m','f'])
 
     def move(self, dx=0, dy=0):
         if not self. collide_with_walls(dx,dy):
@@ -35,6 +46,26 @@ class Lion(pygame.sprite.Sprite):
         self.rect.x = self.x * GRIDWIDTH
         self.rect.y = self.y * GRIDHEIGHT
 
+    def hunt(self):
+        if self.hunger_limit<10:
+            #locate nearest prey
+            #dont do anything 
+            self.hunting = True
+            pass
+
+    def drink(self):
+        if self.thirst_limit <10:
+            #locate nearst water source
+        #otherwise dont do anything
+            pass
+
+    def breed(self):
+        if self.can_breed and self.breeding:
+            #then cannot breed 
+            pass
+        else: 
+            #start looking for the nearest female. 
+            pass
 
 class Wolf(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
