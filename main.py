@@ -7,6 +7,7 @@ from sprites import *
 
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
+water_sources = []
 
 num_lions = 3
 lion_group = pygame.sprite.Group()
@@ -53,6 +54,7 @@ class Game:
                    pass
                 if tile == 'w':
                     water(self,col,row)
+                    water_sources.append((col,row))
                 if tile =='.':
                     Grass(self,col,row)
                     valid_spawning_area.append((col,row))
@@ -63,7 +65,6 @@ class Game:
             self.lion = Lion(self,randxy[0][0],randxy[0][1])
             lion_group.add(self.lion)
     
-
         #generate random spawning wolves
         for i in range(num_wolves):
             randxy = [random.choice(valid_spawning_area)]
