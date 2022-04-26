@@ -4,6 +4,7 @@ import random
 from os import path
 from config import *
 from sprites import *
+import math
 
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
@@ -21,6 +22,9 @@ rabbit_group = pygame.sprite.Group()
 num_deers = 7
 deer_group = pygame.sprite.Group()
 
+def distance(startX,startY,endX,endY):
+    res = math.sqrt(((endX-startX)**2) + ((endY-startY)**2))
+    return res
 
 class Game:
     def __init__(self):
@@ -50,10 +54,9 @@ class Game:
                 if tile == 'm':
                     Mountain(self,col,row)
                 if tile == 'b':
-                   Boundary(self,col,row)
-                   pass
+                    Boundary(self,col,row)
                 if tile == 'w':
-                    water(self,col,row)
+                    Water(self,col,row)
                     water_sources.append((col,row))
                 if tile =='.':
                     Grass(self,col,row)
@@ -114,16 +117,19 @@ class Game:
     #random lion movement 
         for lion in lion_group:
             #if lion is not hunting and is able to hunt(for example not breeding)
-            if lion.hunting == False and lion.can_hunt == True:
-                lion.hunt()
+            #if lion.hunting == False and lion.can_hunt == True:
+            
             #if lion is not breeding and is able to breed i.e. not hungry, not thirsty and not hunting 
-            if lion.breeding == False and lion.can_breed == True:
-                lion.breed()
+            #if lion.breeding == False and lion.can_breed == True:
+              
             #if lion is not hunting and not breeding but thirsty then drink
             if lion.hunting == False and lion.breeding == False and lion.thirsty == True:
-                lion.drink()
+                water = water_sources[0]
+                lion.drink(water[0],water[1])
+    
             #otherwise do random movements
             else:
+                print("no")
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 lion.move(x,y)
                 lion.hunger_limit = lion.hunger_limit - random.randint(0,5)

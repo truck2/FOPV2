@@ -1,4 +1,5 @@
 from os import path
+
 #colours
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -24,4 +25,3 @@ NO_OF_BLOCKS_WIDE = len(map[0])
 NO_OF_BLOCKS_HIGH = len(map)
 GRIDWIDTH = round(WIDTH/NO_OF_BLOCKS_WIDE)
 GRIDHEIGHT = round(HEIGHT/NO_OF_BLOCKS_HIGH)
-

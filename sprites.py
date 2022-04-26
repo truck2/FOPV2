@@ -17,16 +17,16 @@ class Lion(pygame.sprite.Sprite):
         self.rect.y = y*GRIDHEIGHT
         self.hunger_limit = 30
         self.hunting = False 
-        self.can_hunt = True
-        self.thirst_limit = 50
+        self.can_hunt = False
+        self.thirst_limit = 10
         self.thirsty = True
-        self.can_breed = True
-        self.breeding = True
+        self.can_breed = False
+        self.breeding = False
         self.breeding_cooldown = 100
         self.gender = random.choice(['m','f'])
 
     def move(self, dx=0, dy=0):
-        if not self. collide_with_walls(dx,dy):
+        if not self.collide_with_walls(dx,dy):
             self.x += dx
             self.y += dy
 
@@ -53,11 +53,17 @@ class Lion(pygame.sprite.Sprite):
             self.hunting = True
             pass
 
-    def drink(self):
-        if self.thirst_limit <10:
-            #locate nearst water source
-        #otherwise dont do anything
-            pass
+    def drink(self,waterX, waterY):
+            if self.x < waterX:
+                    self.x +=1
+            elif self.x > waterX:
+                    self.x -=1
+            if self.y <waterY:
+                    self.y +=1
+            elif self.y > waterY:
+                    self.y -=1
+            self.thirst_level = 50
+            self.thirst = False
 
     def breed(self):
         if self.can_breed and self.breeding:
@@ -182,7 +188,20 @@ class Mountain(pygame.sprite.Sprite):
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
 
-class water(pygame.sprite.Sprite):
+class Boundary(pygame.sprite.Sprite):
+    def __init__(self,game,x,y):
+        self.groups = game.all_sprites, game.boundary
+        pygame.sprite.Sprite.__init__(self,self.groups)
+        self.game =game
+        self.image = pygame.image.load("images/wall.png").convert()
+        self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x*GRIDWIDTH
+        self.rect.y = y*GRIDHEIGHT
+
+class Water(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
         self.groups = game.all_sprites, game.water
         pygame.sprite.Sprite.__init__(self,self.groups)
@@ -207,19 +226,4 @@ class Grass(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
-
-class Boundary(pygame.sprite.Sprite):
-    def __init__(self,game,x,y):
-        self.groups = game.all_sprites, game.boundary
-        pygame.sprite.Sprite.__init__(self,self.groups)
-        self.game =game
-        self.image = pygame.image.load("images/wall.png").convert()
-        self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x*GRIDWIDTH
-        self.rect.y = y*GRIDHEIGHT
-
-
 
