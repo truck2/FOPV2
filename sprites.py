@@ -30,6 +30,9 @@ class Lion(pygame.sprite.Sprite):
             self.x += dx
             self.y += dy
 
+    def getlocation(self):
+        return (self.x, self.y)
+
     def collide_with_walls(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:

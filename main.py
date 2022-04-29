@@ -1,3 +1,4 @@
+from numpy import Inf
 import pygame 
 import sys
 import random
@@ -9,6 +10,8 @@ import math
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
 water_sources = []
+
+MAX_VALUE = Inf
 
 num_lions = 3
 lion_group = pygame.sprite.Group()
@@ -124,15 +127,23 @@ class Game:
               
             #if lion is not hunting and not breeding but thirsty then drink
             if lion.hunting == False and lion.breeding == False and lion.thirsty == True:
-                water = water_sources[0]
-                lion.drink(water[0],water[1])
-    
+                for coord in water_sources:
+                    currLoc = lion.getlocation()
+                    dist = distance(currLoc[0],currLoc[1],coord[0],coord[1])
+                    closest_water_source = ()
+                    currdist  =MAX_VALUE 
+                    if dist<currdist:
+                        currdist = dist
+                        closest_water_source = (coord[0],coord[1])
+                        print(closest_water_source)
+                    lion.drink(closest_water_source[0],closest_water_source[1])
+            print(closest_water_source)
             #otherwise do random movements
-            else:
-                print("no")
-                x = random.randint(-1,1); y= random.randint(-1,1)
-                lion.move(x,y)
-                lion.hunger_limit = lion.hunger_limit - random.randint(0,5)
+            #else:
+                #print("no")
+               # x = random.randint(-1,1); y= random.randint(-1,1)
+               # lion.move(x,y)
+              #  lion.hunger_limit = lion.hunger_limit - random.randint(0,5)
         
 
     #random wolf movement
