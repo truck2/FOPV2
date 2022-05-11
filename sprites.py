@@ -13,12 +13,14 @@ class Lion(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.neighbors = []
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
-        self.hunger_limit = 30
+        self.hunger_limit = max_hunger_limit
         self.hunting = False 
         self.can_hunt = False
-        self.thirst_limit = 10
+        self.thirst_limit = max_thirst_limit
+        self.closest_water = ()
         self.thirsty = True
         self.can_breed = False
         self.breeding = False
@@ -32,7 +34,16 @@ class Lion(pygame.sprite.Sprite):
 
     def getlocation(self):
         return (self.x, self.y)
+    
+    def get_neighbors(self):
+        self.neighbors = []
+        self.neighbors.append((self.x+1,self.y))
+        self.neighbors.append((self.x-1,self.y))
+        self.neighbors.append((self.x,self.y+1))
+        self.neighbors.append((self.x,self.y-1))
 
+        return self.neighbors
+            
     def collide_with_walls(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:
@@ -56,17 +67,9 @@ class Lion(pygame.sprite.Sprite):
             self.hunting = True
             pass
 
-    def drink(self,waterX, waterY):
-            if self.x < waterX:
-                    self.x +=1
-            elif self.x > waterX:
-                    self.x -=1
-            if self.y <waterY:
-                    self.y +=1
-            elif self.y > waterY:
-                    self.y -=1
-            self.thirst_level = 50
-            self.thirst = False
+    def drink(self):    
+        self.thirst = False
+        self.thirst_limit = max_thirst_limit
 
     def breed(self):
         if self.can_breed and self.breeding:

@@ -15,6 +15,9 @@ HEIGHT = 1080
 FPS = 1
 TITLE = "Animal Kindom"
 
+max_hunger_limit = 30
+max_thirst_limit = 40
+
 map =[]
 with open(path.join('map.txt'),'r') as file:
     for line in file:

@@ -6,6 +6,7 @@ from os import path
 from config import *
 from sprites import *
 import math
+from copy import deepcopy
 
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
@@ -70,6 +71,7 @@ class Game:
             randxy = [random.choice(valid_spawning_area)]
             self.lion = Lion(self,randxy[0][0],randxy[0][1])
             lion_group.add(self.lion)
+
     
         #generate random spawning wolves
         for i in range(num_wolves):
@@ -90,7 +92,7 @@ class Game:
             deer_group.add(self.deer)
 
         
-              
+            
     def run(self):
         self.playing = True
         while self.playing:
@@ -102,6 +104,7 @@ class Game:
       #update portion of the gameloop
     def update(self):
         self.all_sprites.update()
+        
 
     def draw_grid(self):
         for i in range(NO_OF_BLOCKS_WIDE):
@@ -119,34 +122,61 @@ class Game:
     def events(self):
     #random lion movement 
         for lion in lion_group:
+            #if lion is not hunting and not breeding but thirsty then drink
+            #calculate the closest watersource for each lion
+            lion.thirst_limit -= random.randint(1,10)
+            if lion.thirst_limit <=0: #if lion is thirst then we look for the nearst water.
+                print("Lion is thirsty")
+                locations = water_sources[:]
+                lion_location = lion.getlocation()
+                locations.append(lion_location)
+                locations.sort()
+                for loc in locations:
+                    if loc == lion_location:
+                        d1=0;d2=0
+                        index1 = locations.index(loc) + 1
+                        index2 = locations.index(loc) - 1 
+                        if index1>=0 and index1 <len(locations): 
+                            d1 = distance(locations[index1][0],locations[index1][1],lion_location[0],lion_location[1])
+                        if index2>=0 and index2 - 1 <len(locations):
+                            d2 = distance(locations[index2][0],locations[index2][1],lion_location[0],lion_location[1])
+
+                        if d1>d2:
+                            watloc = locations[index1]
+                        else:
+                            watloc = locations[index2]
+                        
+                        if lion.closest_water == ():
+                            lion.closest_water = deepcopy(watloc)
+                            break
+                        
+                #now move towards closest water_source
+                if lion_location[0] < lion.closest_water[0]:
+                    lion.move(1,0)
+                elif lion_location[0] > lion.closest_water[0]:
+                    lion.move(-1,0)
+                if lion_location[1] < lion.closest_water[1]:
+                    lion.move(0,1)
+                elif lion_location[1] > lion.closest_water[1]:
+                    lion.move(0,-1)
+               
+                neigbors = lion.get_neighbors()
+                for i in neigbors:
+                    if i in water_sources:
+                        lion.drink()
+                        print("lion drank water")
+
+            else:# move randomly
+                x = random.randint(-1,1); y= random.randint(-1,1)
+                lion.move(x,y)
+
             #if lion is not hunting and is able to hunt(for example not breeding)
             #if lion.hunting == False and lion.can_hunt == True:
             
             #if lion is not breeding and is able to breed i.e. not hungry, not thirsty and not hunting 
-            #if lion.breeding == False and lion.can_breed == True:
-              
-            #if lion is not hunting and not breeding but thirsty then drink
-            if lion.hunting == False and lion.breeding == False and lion.thirsty == True:
-                for coord in water_sources:
-                    currLoc = lion.getlocation()
-                    dist = distance(currLoc[0],currLoc[1],coord[0],coord[1])
-                    closest_water_source = ()
-                    currdist  =MAX_VALUE 
-                    if dist<currdist:
-                        currdist = dist
-                        closest_water_source = (coord[0],coord[1])
-                        print(closest_water_source)
-                    lion.drink(closest_water_source[0],closest_water_source[1])
-            print(closest_water_source)
-            #otherwise do random movements
-            #else:
-                #print("no")
-               # x = random.randint(-1,1); y= random.randint(-1,1)
-               # lion.move(x,y)
-              #  lion.hunger_limit = lion.hunger_limit - random.randint(0,5)
-        
+            #if lion.breeding == False and lion.can_breed == True
 
-    #random wolf movement
+    #random wolf movement   
         for wolf in wolf_group:
             x = random.randint(-1,1); y= random.randint(-1,1)
             wolf.move(x,y)
