@@ -1,4 +1,4 @@
-from numpy import Inf
+from xml.sax.handler import property_declaration_handler
 import pygame 
 import sys
 import random
@@ -12,23 +12,70 @@ from copy import deepcopy
 valid_spawning_area = []
 water_sources = []
 
-MAX_VALUE = Inf
-
 num_lions = 3
-lion_group = pygame.sprite.Group()
-
+lion_location = ()
 num_wolves = 5
-wolf_group = pygame.sprite.Group()
-
+wolf_location = ()
 num_rabbits = 10
-rabbit_group = pygame.sprite.Group()
-
+rabbit_location = []
 num_deers = 7
-deer_group = pygame.sprite.Group()
+deer_location = ()
+
 
 def distance(startX,startY,endX,endY):
     res = math.sqrt(((endX-startX)**2) + ((endY-startY)**2))
     return res
+
+def chase(animal,prey):
+    animal_location = animal.getlocation()
+    if animal_location[0] < prey.x:
+        animal.move(1,0)
+    elif animal_location[0] > prey.x:
+        animal.move(-1,0)
+    if animal_location[1] < prey.y:
+        animal.move(0,1)
+    elif animal_location[1] > prey.y:
+        animal.move(0,-1)
+
+def look_for_nearst_water(animal):
+    locations = water_sources[:]
+    animal_location = animal.getlocation()
+    locations.append(animal_location)
+    locations.sort()
+    for loc in locations:
+        if loc == animal_location:
+            d1=0;d2=0
+            index1 = locations.index(loc) + 1
+            index2 = locations.index(loc) - 1 
+            if index1>=0 and index1 <len(locations): 
+                d1 = distance(locations[index1][0],locations[index1][1],animal_location[0],animal_location[1])
+            if index2>=0 and index2 - 1 <len(locations):
+                d2 = distance(locations[index2][0],locations[index2][1],animal_location[0],animal_location[1])
+
+            if d1>d2:
+                watloc = locations[index1]
+            else:
+                watloc = locations[index2]
+                    
+            if animal.closest_water == ():
+                animal.closest_water = deepcopy(watloc)
+                break
+                    
+            #now move towards closest water_source
+            if animal_location[0] < animal.closest_water[0]:
+                animal.move(1,0)
+            elif animal_location[0] > animal.closest_water[0]:
+                animal.move(-1,0)
+            if animal_location[1] < animal.closest_water[1]:
+                animal.move(0,1)
+            elif animal_location[1] > animal.closest_water[1]:
+                animal.move(0,-1)
+
+            neigbors = animal.get_neighbors()
+            for i in neigbors:
+                if i in water_sources:
+                    animal.drink()
+                    print(str(animal.name)+ "drank water")
 
 class Game:
     def __init__(self):
@@ -52,6 +99,12 @@ class Game:
         self.boundary = pygame.sprite.Group()
         self.mountain = pygame.sprite.Group()
         self.grass = pygame.sprite.Group()
+        self.lion_group = pygame.sprite.Group()
+        self.lion_baby = pygame.sprite.Group()
+        self.wolf_group = pygame.sprite.Group()
+        self.deer_group = pygame.sprite.Group()
+        self.rabbit_group = pygame.sprite.Group()
+
         #generate input map 
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
@@ -70,27 +123,29 @@ class Game:
         for i in range(num_lions):
             randxy = [random.choice(valid_spawning_area)]
             self.lion = Lion(self,randxy[0][0],randxy[0][1])
-            lion_group.add(self.lion)
+            self.lion_group.add(self.lion)
+            
 
-    
         #generate random spawning wolves
         for i in range(num_wolves):
             randxy = [random.choice(valid_spawning_area)]
             self.wolf = Wolf(self,randxy[0][0],randxy[0][1])
-            wolf_group.add(self.wolf)
+            self.wolf_group.add(self.wolf)
+            
 
         #generate random spawning rabbits
         for i in range(num_rabbits):
             randxy = [random.choice(valid_spawning_area)]
             self.rabbit = Rabbit(self,randxy[0][0],randxy[0][1])
-            rabbit_group.add(self.rabbit)
+            self.rabbit_group.add(self.rabbit)
+           
 
         #generate random spawning deer
         for i in range(num_deers):
             randxy = [random.choice(valid_spawning_area)]
             self.deer = Deer(self,randxy[0][0],randxy[0][1])
-            deer_group.add(self.deer)
-
+            self.deer_group.add(self.deer)
+           
         
             
     def run(self):
@@ -119,77 +174,91 @@ class Game:
         self.draw_grid()
         pygame.display.flip()
 
+
     def events(self):
-    #random lion movement 
-        for lion in lion_group:
-            #if lion is not hunting and not breeding but thirsty then drink
-            #calculate the closest watersource for each lion
-            lion.thirst_limit -= random.randint(1,10)
-            if lion.thirst_limit <=0: #if lion is thirst then we look for the nearst water.
-                print("Lion is thirsty")
-                locations = water_sources[:]
-                lion_location = lion.getlocation()
-                locations.append(lion_location)
-                locations.sort()
-                for loc in locations:
-                    if loc == lion_location:
-                        d1=0;d2=0
-                        index1 = locations.index(loc) + 1
-                        index2 = locations.index(loc) - 1 
-                        if index1>=0 and index1 <len(locations): 
-                            d1 = distance(locations[index1][0],locations[index1][1],lion_location[0],lion_location[1])
-                        if index2>=0 and index2 - 1 <len(locations):
-                            d2 = distance(locations[index2][0],locations[index2][1],lion_location[0],lion_location[1])
-
-                        if d1>d2:
-                            watloc = locations[index1]
-                        else:
-                            watloc = locations[index2]
-                        
-                        if lion.closest_water == ():
-                            lion.closest_water = deepcopy(watloc)
-                            break
-                        
-                #now move towards closest water_source
-                if lion_location[0] < lion.closest_water[0]:
-                    lion.move(1,0)
-                elif lion_location[0] > lion.closest_water[0]:
-                    lion.move(-1,0)
-                if lion_location[1] < lion.closest_water[1]:
-                    lion.move(0,1)
-                elif lion_location[1] > lion.closest_water[1]:
-                    lion.move(0,-1)
-               
-                neigbors = lion.get_neighbors()
-                for i in neigbors:
-                    if i in water_sources:
-                        lion.drink()
-                        print("lion drank water")
-
-            else:# move randomly
-                x = random.randint(-1,1); y= random.randint(-1,1)
-                lion.move(x,y)
-
-            #if lion is not hunting and is able to hunt(for example not breeding)
-            #if lion.hunting == False and lion.can_hunt == True:
-            
-            #if lion is not breeding and is able to breed i.e. not hungry, not thirsty and not hunting 
-            #if lion.breeding == False and lion.can_breed == True
-
-    #random wolf movement   
-        for wolf in wolf_group:
+         #random wolf movement   
+        for wolf in self.wolf_group:
             x = random.randint(-1,1); y= random.randint(-1,1)
             wolf.move(x,y)
-
+            
     #random rabbit movement
-        for rabbit in rabbit_group:
+        for rabbit in self.rabbit_group:
             x = random.randint(-1,1); y= random.randint(-1,1)
             rabbit.move(x,y)
 
     #random deer movement
-        for deer in deer_group:
+        for deer in self.deer_group:
             x = random.randint(-1,1); y= random.randint(-1,1)
             deer.move(x,y)
+
+
+        for lion in self.lion_group:
+            #calculate the closest watersource for each lion
+            prey = ()
+            prey_rabbit = pygame.math.Vector2()
+            prey_deer = pygame.math.Vector2()
+            prey_wolf = pygame.math.Vector2()
+            lion.thirst_limit -= random.randint(1,2)
+            lion.hunger_limit -= random.randint(1,2)
+            #lion.reproduction_level -= random.randint(1,20)
+            partner = pygame.math.Vector2()
+            if lion.thirst_limit <=0: #if lion is thirst then we look for the nearst water.
+                print(str(lion.name) + " is Thirsty")
+                look_for_nearst_water(lion)
+
+            if lion.hunger_limit <=0:
+                lion.hungry = True
+                print(str(lion.name) + " is Hungry")
+                pos = pygame.math.Vector2(lion.x, lion.y)
+                if self.rabbit_group:
+                    prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                if self.deer_group:
+                    prey_deer = min([e for e in self.deer_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                if self.wolf_group:
+                    prey_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+
+                dist_to_rab = distance(prey_rabbit.x,prey_rabbit.y,lion.getlocation()[0],lion.getlocation()[1])
+                dist_to_deer = distance(prey_deer.x,prey_deer.y,lion.getlocation()[0],lion.getlocation()[1])
+                dist_to_wolf = distance(prey_wolf.x,prey_wolf.y,lion.getlocation()[0],lion.getlocation()[1])
+                if dist_to_rab < dist_to_wolf and dist_to_rab < dist_to_deer:
+                    prey = prey_rabbit
+                elif dist_to_deer < dist_to_wolf and dist_to_deer < dist_to_rab:
+                    prey = prey_deer
+                else:
+                    prey = prey_wolf
+                
+                chase(lion,prey)
+
+                lion_neighbors = lion.get_neighbors()
+                for i in lion_neighbors:
+                    if i == (prey.x,prey.y):
+                        prey.kill()
+                        lion.ate()
+
+            if lion.reproduction_level == 100 and lion.can_breed ==True: #Find nearst opposite gender
+                print(str(lion.name) + str(lion.gender) +" is ready to mate")
+                pos = pygame.math.Vector2(lion.x, lion.y)
+                if lion.gender == 'm':
+                    partner = min([e for e in self.lion_group if e is not lion and e.gender =='f'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                else:
+                    partner = min([e for e in self.lion_group if e is not lion and e.gender =='m'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                chase(lion,partner)
+
+                lion_neighbors = lion.get_neighbors()
+                for i in lion_neighbors:
+                    if i == (partner.x,partner.y):
+                        lion.reproduce()
+                        randxy = [random.randint(-1,1)]
+                        if not lion.collide_with_entity(randxy[0],randxy[1]):
+                            if random.randint(0,5) == 4: #25% chance of producing a baby
+                                lion.baby = Lion(self,partner.x+randxy[0],partner.y+randxy[1])
+                                self.lion_baby.append(lion.baby)
+                                lion.breeding ==True
+                                lion.can_breed = False
+                        
+            else:# move randomly
+                x = random.randint(-1,1); y= random.randint(-1,1)
+                lion.move(x,y)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

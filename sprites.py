@@ -5,30 +5,35 @@ import random
 class Lion(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
         #need to add hunger, thirst, mating to all animals which dictates their movement - hunger move to prey animal - thirst move towards water - mate -move towards female/male counterpart 
-        self.groups = game.all_sprites, game.boundary
+        self.groups = game.all_sprites, game.lion_group
         pygame.sprite.Sprite.__init__(self,self.groups)
+        self.name =  random.choice(['A','B','C'])+ str(random.randint(0,5))
+        self.gender = random.choice(['m','f'])
         self.game =game
         self.image = pygame.image.load("images/lion.png").convert()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
+        self.font = pygame.font.SysFont("sans",30)
+        self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
+        self.image.blit(self.text,[0,0])
         self.x = x
         self.y = y
         self.neighbors = []
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
         self.hunger_limit = max_hunger_limit
-        self.hunting = False 
+        self.hungry = True 
         self.can_hunt = False
         self.thirst_limit = max_thirst_limit
+        self.baby = game.lion_baby
         self.closest_water = ()
         self.thirsty = True
-        self.can_breed = False
+        self.can_breed = True
         self.breeding = False
-        self.breeding_cooldown = 100
-        self.gender = random.choice(['m','f'])
+        self.reproduction_level = 100
 
     def move(self, dx=0, dy=0):
-        if not self.collide_with_walls(dx,dy):
+        if not self.collide_with_entity(dx,dy):
             self.x += dx
             self.y += dy
 
@@ -44,7 +49,7 @@ class Lion(pygame.sprite.Sprite):
 
         return self.neighbors
             
-    def collide_with_walls(self, dx=0, dy=0):
+    def collide_with_entity(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:
                 return True
@@ -53,37 +58,42 @@ class Lion(pygame.sprite.Sprite):
                 return True
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
-                return True       
+                return True
+        for l in self.game.lion_group:
+            if l.x == self.x + dx and l.y == self.y + dy:
+                return True
+        for wo in self.game.wolf_group:
+            if wo.x == self.x + dx and wo.y == self.y + dy:
+                return True
+        for d in self.game.deer_group:
+            if d.x == self.x + dx and d.y == self.y + dy:
+                return True
+        for r in self.game.rabbit_group:
+            if r.x == self.x + dx and r.y == self.y + dy:
+                return True
         return False
 
     def update(self):
         self.rect.x = self.x * GRIDWIDTH
         self.rect.y = self.y * GRIDHEIGHT
 
-    def hunt(self):
-        if self.hunger_limit<10:
-            #locate nearest prey
-            #dont do anything 
-            self.hunting = True
-            pass
+    def ate(self):
+        self.hungry = False
+        self.hunger_limit = max_hunger_limit
 
     def drink(self):    
         self.thirst = False
         self.thirst_limit = max_thirst_limit
 
-    def breed(self):
-        if self.can_breed and self.breeding:
-            #then cannot breed 
-            pass
-        else: 
-            #start looking for the nearest female. 
-            pass
+    def reproduce(self):
+        self.reproduction_level == 100
 
 class Wolf(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
-        self.groups = game.all_sprites, game.boundary
+        self.groups = game.all_sprites, game.wolf_group
         pygame.sprite.Sprite.__init__(self,self.groups)
         self.game =game
+        self.neighbors = []
         self.image = pygame.image.load("images/wolf.png").convert()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
@@ -92,12 +102,24 @@ class Wolf(pygame.sprite.Sprite):
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
 
+    def getlocation(self):
+        return (self.x, self.y)
+    
+    def get_neighbors(self):
+        self.neighbors = []
+        self.neighbors.append((self.x+1,self.y))
+        self.neighbors.append((self.x-1,self.y))
+        self.neighbors.append((self.x,self.y+1))
+        self.neighbors.append((self.x,self.y-1))
+
+        return self.neighbors
+
     def move(self, dx=0, dy=0):
-        if not self. collide_with_walls(dx,dy):
+        if not self. collide_with_entity(dx,dy):
             self.x += dx
             self.y += dy
 
-    def collide_with_walls(self, dx=0, dy=0):
+    def collide_with_entity(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:
                 return True
@@ -106,7 +128,19 @@ class Wolf(pygame.sprite.Sprite):
                 return True
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
-                return True       
+                return True
+        for l in self.game.lion_group:
+            if l.x == self.x + dx and l.y == self.y + dy:
+                return True
+        for wo in self.game.wolf_group:
+            if wo.x == self.x + dx and wo.y == self.y + dy:
+                return True
+        for d in self.game.deer_group:
+            if d.x == self.x + dx and d.y == self.y + dy:
+                return True
+        for r in self.game.rabbit_group:
+            if r.x == self.x + dx and r.y == self.y + dy:
+                return True
         return False
 
     def update(self):
@@ -115,23 +149,37 @@ class Wolf(pygame.sprite.Sprite):
 
 class Rabbit(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
-        self.groups = game.all_sprites, game.boundary
+        self.groups = game.all_sprites, game.rabbit_group
         pygame.sprite.Sprite.__init__(self,self.groups)
+        self.name =  "Rabbit "+ str(random.randint(0,5)) + str(str(random.randint(5,10)))
         self.game =game
         self.image = pygame.image.load("images/rabbit.png").convert()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
+        self.neighbors = []
         self.x = x
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
 
     def move(self, dx=0, dy=0):
-        if not self. collide_with_walls(dx,dy):
+        if not self. collide_with_entity(dx,dy):
             self.x += dx
             self.y += dy
 
-    def collide_with_walls(self, dx=0, dy=0):
+    def get_neighbors(self):
+        self.neighbors = []
+        self.neighbors.append((self.x+1,self.y))
+        self.neighbors.append((self.x-1,self.y))
+        self.neighbors.append((self.x,self.y+1))
+        self.neighbors.append((self.x,self.y-1))
+
+        return self.neighbors
+
+    def getlocation(self):
+        return (self.x, self.y)
+
+    def collide_with_entity(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:
                 return True
@@ -140,7 +188,19 @@ class Rabbit(pygame.sprite.Sprite):
                 return True
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
-                return True       
+                return True
+        for l in self.game.lion_group:
+            if l.x == self.x + dx and l.y == self.y + dy:
+                return True
+        for wo in self.game.wolf_group:
+            if wo.x == self.x + dx and wo.y == self.y + dy:
+                return True
+        for d in self.game.deer_group:
+            if d.x == self.x + dx and d.y == self.y + dy:
+                return True
+        for r in self.game.rabbit_group:
+            if r.x == self.x + dx and r.y == self.y + dy:
+                return True
         return False
 
     def update(self):
@@ -149,23 +209,36 @@ class Rabbit(pygame.sprite.Sprite):
 
 class Deer(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
-        self.groups = game.all_sprites, game.boundary
+        self.groups = game.all_sprites, game.deer_group
         pygame.sprite.Sprite.__init__(self,self.groups)
         self.game =game
         self.image = pygame.image.load("images/deer.png").convert()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
+        self.neighbors = []
         self.x = x
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+    
+    def get_neighbors(self):
+        self.neighbors = []
+        self.neighbors.append((self.x+1,self.y))
+        self.neighbors.append((self.x-1,self.y))
+        self.neighbors.append((self.x,self.y+1))
+        self.neighbors.append((self.x,self.y-1))
+
+        return self.neighbors
+
+    def getlocation(self):
+        return (self.x, self.y)
 
     def move(self, dx=0, dy=0):
-        if not self. collide_with_walls(dx,dy):
+        if not self. collide_with_entity(dx,dy):
             self.x += dx
             self.y += dy
 
-    def collide_with_walls(self, dx=0, dy=0):
+    def collide_with_entity(self, dx=0, dy=0):
         for  bound in self.game.boundary:
             if bound.x == self.x + dx and bound.y == self.y + dy:
                 return True
@@ -174,7 +247,19 @@ class Deer(pygame.sprite.Sprite):
                 return True
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
-                return True       
+                return True
+        for l in self.game.lion_group:
+            if l.x == self.x + dx and l.y == self.y + dy:
+                return True
+        for wo in self.game.wolf_group:
+            if wo.x == self.x + dx and wo.y == self.y + dy:
+                return True
+        for d in self.game.deer_group:
+            if d.x == self.x + dx and d.y == self.y + dy:
+                return True
+        for r in self.game.rabbit_group:
+            if r.x == self.x + dx and r.y == self.y + dy:
+                return True
         return False
 
     def update(self):
@@ -232,4 +317,7 @@ class Grass(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+
+    def getlocation(self):
+            return (self.x, self.y)
 
