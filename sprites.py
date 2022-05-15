@@ -25,11 +25,12 @@ class Lion(pygame.sprite.Sprite):
         self.hungry = True 
         self.can_hunt = False
         self.thirst_limit = max_thirst_limit
-        self.baby = game.lion_baby
         self.closest_water = ()
         self.thirsty = True
-        self.can_breed = True
+        self.can_breed = False
+        self.mated = True
         self.breeding = False
+        self.breedingCooldown = 500
         self.reproduction_level = 100
 
     def move(self, dx=0, dy=0):
@@ -86,7 +87,10 @@ class Lion(pygame.sprite.Sprite):
         self.thirst_limit = max_thirst_limit
 
     def reproduce(self):
+        self.mated = True
         self.reproduction_level == 100
+        self.can_breed = False
+        self.breedingCooldown = 5000
 
 class Wolf(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
@@ -94,6 +98,8 @@ class Wolf(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self,self.groups)
         self.game =game
         self.neighbors = []
+        self.name =  random.choice(['A','B','C'])+ str(random.randint(0,5))
+        self.gender = random.choice(['m','f'])
         self.image = pygame.image.load("images/wolf.png").convert()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
@@ -101,6 +107,21 @@ class Wolf(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+        self.stamina =50
+        self.font = pygame.font.SysFont("sans",30)
+        self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
+        self.image.blit(self.text,[0,0])
+        self.hunger_limit = max_hunger_limit
+        self.hungry = True 
+        self.can_hunt = False
+        self.thirst_limit = max_thirst_limit
+        self.closest_water = ()
+        self.thirsty = True
+        self.can_breed = False
+        self.mated = True
+        self.breeding = False
+        self.breedingCooldown = 500
+        self.reproduction_level = 100
 
     def getlocation(self):
         return (self.x, self.y)
@@ -146,6 +167,20 @@ class Wolf(pygame.sprite.Sprite):
     def update(self):
         self.rect.x = self.x * GRIDWIDTH
         self.rect.y = self.y * GRIDHEIGHT
+
+    def ate(self):
+        self.hungry = False
+        self.hunger_limit = max_hunger_limit
+
+    def drink(self):    
+        self.thirst = False
+        self.thirst_limit = max_thirst_limit
+
+    def reproduce(self):
+        self.mated = True
+        self.reproduction_level == 100
+        self.can_breed = False
+        self.breedingCooldown = 5000
 
 class Rabbit(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
@@ -278,6 +313,8 @@ class Mountain(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+    def getlocation(self):
+            return (self.x, self.y)
 
 class Boundary(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
@@ -304,6 +341,8 @@ class Water(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
+    def getlocation(self):
+            return (self.x, self.y)
 
 class Grass(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
