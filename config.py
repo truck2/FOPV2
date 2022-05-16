@@ -18,6 +18,10 @@ TITLE = "Animal Kindom"
 #Game inputs
 max_hunger_limit = 30
 max_thirst_limit = 40
+num_lions = 3
+num_wolves = 5
+num_rabbits = 10
+num_deers = 7
 
 map =[]
 with open(path.join('map.txt'),'r') as file:

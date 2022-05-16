@@ -13,13 +13,10 @@ from copy import deepcopy
 valid_spawning_area = []
 water_sources = []
 
-num_lions = 3
+
 lion_location = ()
-num_wolves = 5
 wolf_location = ()
-num_rabbits = 10
 rabbit_location = []
-num_deers = 7
 deer_location = ()
 
 
