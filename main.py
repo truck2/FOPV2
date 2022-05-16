@@ -1,4 +1,3 @@
-from numpy import False_
 import pygame
 import pygame.freetype 
 import sys
@@ -181,7 +180,8 @@ class Game:
         pygame.display.flip()
 
     def events(self):
-        #wolf movement
+
+       #---------------------------------------------------------#Wolf Movement ---------------------------------------------------------------------------------------------------------------------------#
         for wolf in self.wolf_group:
             partner = pygame.math.Vector2()
             predator_lion = pygame.math.Vector2()
@@ -198,8 +198,8 @@ class Game:
                 pos = pygame.math.Vector2(wolf.x, wolf.y)
                 predator_lion = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 wolf_neighbors = wolf.get_neighbors()
-                for i in wolf_neighbors:
-                    if i == (predator_lion.x,predator_lion.y):
+                for neighbours in wolf_neighbors:
+                    if neighbours == (predator_lion.x,predator_lion.y):
                         run_away(wolf,predator_lion)
                         print("Wolf " +str(wolf.name) + str(wolf.gender)+ " is running away from: "+ str(predator_lion.name))
 
@@ -208,7 +208,7 @@ class Game:
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 wolf_neighbors = wolf.get_neighbors()
                 for i in wolf_neighbors:
-                    if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<90:
+                    if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<100:
                         prey_rabbit.kill()
                         wolf.ate()
                         print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
@@ -240,52 +240,60 @@ class Game:
                 wolf.can_breed = True
                 wolf.mated = False
 
+            pos = pygame.math.Vector2(wolf.x, wolf.y)
+            try:
+                if wolf.gender == 'm':
+                    partner = min([e for e in self.wolf_group if e is not wolf and e.gender =='f' and e.mated==False and e.can_breed==True], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+            except ValueError:
+                    print("No Female Wolf Partner or Female Wolf Partner not ready yet!")
+                    continue
+
             if wolf.reproduction_level <=80 and wolf.can_breed ==True and wolf.mated == False: #Find nearst opposite gender
                 print("Wolf " +str(wolf.name) +" "+ str(wolf.gender) +" is ready to mate")
-                pos = pygame.math.Vector2(wolf.x, wolf.y)
-                try:
-                    if wolf.gender == 'm':
-                        partner = min([e for e in self.wolf_group if e is not wolf and e.gender =='f' and e.mated==False and e.can_breed==True], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                except ValueError:
-                    print("No Female Wolf Partner or Female Wolf Partner not ready yet!")
+                if partner:  
+            
+                    chase(wolf,partner)
 
-                chase(wolf,partner)
+                    wolf_neighbors = wolf.get_neighbors()
+                    for i in wolf_neighbors:
+                        if i == (partner.x,partner.y):
+                            randx = random.randint(-1,1); randy= random.randint(-1,1)
+                            if not wolf.collide_with_entity(randx,randy)and partner.collide_with_entity(randx,randy):
+                                wolf_offspring = Wolf(self,partner.x+randx,partner.y+randy)
+                                wolf_offspring.reproduce()
+                                partner.reproduce()
+                                wolf.time = pygame.time.get_ticks()
+                                partner.time = pygame.time.get_ticks()
+                                print("Wolf " + str(wolf_offspring.name) + " "+str(wolf_offspring.gender) + " was born!" + " Father is " + str(wolf.name) +" and "+"Mother is " + str(partner.name))
+                                self.wolf_group.add(wolf_offspring)
 
-                wolf_neighbors = wolf.get_neighbors()
-                for i in wolf_neighbors:
-                    if i == (partner.x,partner.y):
-                        randx = random.randint(-1,1); randy= random.randint(-1,1)
-                        if not wolf.collide_with_entity(randx,randy)and partner.collide_with_entity(randx,randy):
-                            wolf_offspring = Wolf(self,partner.x+randx,partner.y+randy)
-                            wolf_offspring.reproduce()
-                            partner.reproduce()
-                            wolf.time = pygame.time.get_ticks()
-                            partner.time = pygame.time.get_ticks()
-                            print("Wolf " + str(wolf_offspring.name) + " "+str(wolf_offspring.gender) + " was born!" + " Father is " + str(wolf.name) +" and "+"Mother is " + str(partner.name))
-                            self.wolf_group.add(wolf_offspring)
+                        #if stuck by a water source
+                        for water in self.water:
+                            if i == water.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                wolf.move(x,y)
 
-                    #if stuck by a water source
-                    for water in self.water:
-                        if i == water.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            wolf.move(x,y)
+                        #if stuck by a moutain
+                        for mount in self.mountain:
+                            if i == mount.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                wolf.move(x,y)
 
-                    #if stuck by a moutain
-                    for mount in self.mountain:
-                        if i == mount.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            wolf.move(x,y)
-
-                    for bound in self.boundary:
-                        if i == bound.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            wolf.move(x,y)
+                        for bound in self.boundary:
+                            if i == bound.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                wolf.move(x,y)
+                else:
+                    continue
 
             else: #random movement
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 wolf.move(x,y)
-            
-        #rabbit movement
+
+
+
+        #---------------------------------------------------------#Rabbit Movement ---------------------------------------------------------------------------------------------------------------------------#
+
         for rabbit in self.rabbit_group:
             partner = pygame.math.Vector2()
             prey = ()
@@ -300,24 +308,25 @@ class Game:
                 print("Rabbit " +str(rabbit.name) + " is Thirsty")
                 look_for_nearst_water(rabbit)
                 
-        
             #run away from predators, if they are nearby
             if self.lion_group:
                 pos = pygame.math.Vector2(rabbit.x, rabbit.y)
                 predator_lion = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 rabbit_neighbors = rabbit.get_neighbors()
-                for i in rabbit_neighbors:
-                    if i == (predator_lion.x,predator_lion.y):
+                for neighbours in rabbit_neighbors:
+                    if neighbours == (predator_lion.x,predator_lion.y):
                         run_away(wolf,predator_lion)
+                        print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Lion"+ str(predator_lion.name))
 
             if self.wolf_group:
                 pos = pygame.math.Vector2(rabbit.x, rabbit.y)
-                predator_wolf = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                predator_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 rabbit_neighbors = rabbit.get_neighbors()
-                for i in rabbit_neighbors:
-                    if i == (predator_lion.x,predator_lion.y):
+                for neighbours in rabbit_neighbors:
+                    if neighbours == (predator_lion.x,predator_lion.y):
                         run_away(wolf,predator_wolf)
-    
+                        print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Wolf"+ str(predator_wolf.name)) 
+
             if rabbit.hunger_limit <=80:
                 print("Rabbit " +str(rabbit.name) + " is Hungry")
                 for grass in self.grass_group:
@@ -330,6 +339,7 @@ class Game:
                         self.soil = Soil(self,grassLoc[0],grassLoc[1])
                         self.soil_group.add(self.soil)
                         rabbit.ate()
+                        print("Rabbit "+str(rabbit.name)+str(rabbit.gender) + "ate")
 
             grass_start = pygame.time.get_ticks()
             if grass_start-grass_time>=int(grass_cooldown):
@@ -344,55 +354,60 @@ class Game:
             if now-rabbit.time >= int(breeding_cooldown):
                 rabbit.can_breed = True
                 rabbit.mated = False
-                
+            
+    
+            pos = pygame.math.Vector2(rabbit.x, rabbit.y)
+            try:
+                if rabbit.gender == 'm': #locate nearst female 
+                    partner = min([e for e in self.rabbit_group if e is not rabbit and e.gender =='f' and e.mated == False and e.can_breed ==True], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+            except ValueError:
+                print("Not enough female Rabbits or Female Rabbit partners are not ready yet!")
+
             #print("Rabbit "+str(rabbit.name)+ " " + str(now) +" "+ str(rabbit.time) +" "+ str(breeding_cooldown)+" "+ str(rabbit.can_breed) + " " + str(rabbit.reproduction_level)+ " " + str(rabbit.mated))
             if rabbit.reproduction_level <=90 and rabbit.can_breed ==True and rabbit.mated == False: #Find nearst opposite gender
                 print("Rabbit " +str(rabbit.name) +" "+ str(rabbit.gender) +" is ready to mate")
-                pos = pygame.math.Vector2(rabbit.x, rabbit.y)
-                
-                try:
-                    if rabbit.gender == 'm': #locate nearst female 
-                        partner = min([e for e in self.rabbit_group if e is not rabbit and e.gender =='f' and e.mated == False and e.can_breed ==True], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                except ValueError:
-                    print("Not enough female Rabbits or Female Rabbit partners are not ready yet!")
-
-                chase(rabbit,partner)
-
-                rabbit_neighbors = rabbit.get_neighbors()
-                for i in rabbit_neighbors:
-                    if i == (partner.x,partner.y):
-                        randx = random.randint(-1,1); randy= random.randint(-1,1)
-                        if not rabbit.collide_with_entity(randx,randy) and not partner.collide_with_entity(randx,randy):
-                            rabbit_offspring = Rabbit(self,partner.x+randx,partner.y+randy)
-                            rabbit_offspring.reproduce()
-                            partner.reproduce()
-                            rabbit.time = pygame.time.get_ticks()
-                            partner.time = pygame.time.get_ticks()
-                            print("Rabbit " + str(rabbit_offspring.name) + " "+str(rabbit_offspring.gender) + " was born!" + "Father is " + str(rabbit.name) +" and "+"Mother is " + str(partner.name))
-                            self.rabbit_group.add(rabbit_offspring)
-                     
-                    #if stuck by a water source
-                    for water in self.water:
-                        if i == water.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            rabbit.move(x,y)
-                    #if stuck by a moutain
-                    for mount in self.mountain:
-                        if i == mount.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            rabbit.move(x,y)
-                    for bound in self.boundary:
-                        if i == bound.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            rabbit.move(x,y)
-
+                if partner:
+                    chase(rabbit,partner)
+                    print("Rabbit " +str(rabbit.name) +" "+ str(rabbit.gender) +" is approaching partner: "+"Rabbit " +str(partner.name)+str(partner.gender))
+                    rabbit_neighbors = rabbit.get_neighbors()
+                    for i in rabbit_neighbors:
+                        if i == (partner.x,partner.y):
+                            randx = random.randint(-1,1); randy= random.randint(-1,1)
+                            if not rabbit.collide_with_entity(randx,randy) and not partner.collide_with_entity(randx,randy):
+                                rabbit_offspring = Rabbit(self,partner.x+randx,partner.y+randy)
+                                rabbit_offspring.reproduce()
+                                partner.reproduce()
+                                rabbit.time = pygame.time.get_ticks()
+                                partner.time = pygame.time.get_ticks()
+                                print("Rabbit " + str(rabbit_offspring.name) + " "+str(rabbit_offspring.gender) + " was born!" + "Father is " + str(rabbit.name) +" and "+"Mother is " + str(partner.name))
+                                self.rabbit_group.add(rabbit_offspring)
+                        
+                        #if stuck by a water source
+                        for water in self.water:
+                            if i == water.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                rabbit.move(x,y)
+                        #if stuck by a moutain
+                        for mount in self.mountain:
+                            if i == mount.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                rabbit.move(x,y)
+                        for bound in self.boundary:
+                            if i == bound.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                rabbit.move(x,y)
+                else:
+                    continue
 
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 rabbit.move(x,y)
 
-        for lion in self.lion_group:
 
+
+
+        #---------------------------------------------------------#Lion Movement ---------------------------------------------------------------------------------------------------------------------------#
+        for lion in self.lion_group:
             partner = pygame.math.Vector2()
             prey = ()
             prey_rabbit = pygame.math.Vector2()
@@ -411,7 +426,7 @@ class Game:
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 lion_neighbors = lion.get_neighbors()
                 for i in lion_neighbors:
-                    if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<90:  
+                    if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<100:  
                         prey_rabbit.kill
                         lion.ate()
                         print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
@@ -421,7 +436,7 @@ class Game:
                 prey_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 lion_neighbors = lion.get_neighbors()
                 for i in lion_neighbors:
-                    if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<90:  
+                    if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<100:  
                         prey_wolf.kill
                         lion.ate()
                         print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
@@ -445,6 +460,7 @@ class Game:
                     prey = prey_wolf
                     
                 chase(lion,prey)
+
                 print("Lion"+str(lion.name)+str(lion.gender)+ "is chasing: "+str(prey.name)+str(prey.gender))
 
                 lion_neighbors = lion.get_neighbors()
@@ -462,50 +478,55 @@ class Game:
                 lion.can_breed = True
                 lion.mated = False
 
+
+            pos = pygame.math.Vector2(lion.x, lion.y)
+            try:
+                if lion.gender == 'm': #locate nearst female 
+                    partner = min([e for e in self.lion_group if e is not lion and e.gender =='f' and e.can_breed == True and e.mated == False], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+            except ValueError:
+                print("No Female Lion Partner or Female Lion partners are not ready to mate Yet!")
+                continue
+
             if lion.reproduction_level <=80 and lion.can_breed ==True and lion.mated == False: #Find nearst opposite gender
                 print("Lion " +str(lion.name) +" "+ str(lion.gender) +" is ready to mate")
+                if partner:
+                    chase(lion,partner)
 
-                pos = pygame.math.Vector2(lion.x, lion.y)
-                try:
-                    if lion.gender == 'm': #locate nearst female 
-                        partner = min([e for e in self.lion_group if e is not lion and e.gender =='f' and e.can_breed == True and e.mated == False], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                except ValueError:
-                    print("No Female Lion Partner or Female Lion partners are not ready to mate Yet!")
-
-                chase(lion,partner)
-
-                lion_neighbors = lion.get_neighbors()
-                for i in lion_neighbors:
-                    if i == (partner.x,partner.y):
-                        randx = random.randint(-1,1); randy= random.randint(-1,1)  
-                        if  not lion.collide_with_entity(randx,randy) and not partner.collide_with_entity(randx,randy):
-                            lion_offspring = Lion(self,partner.x+randx,partner.y+randy)
-                            lion_offspring.reproduce()
-                            partner.reproduce()
-                            lion.time = pygame.time.get_ticks()
-                            partner.time = pygame.time.get_ticks()
-                            print("Lion " + str(lion_offspring.name) + " "+str(lion_offspring.gender) + " was born!" + "Father is " + str(lion.name) +" and "+"Mother is " + str(partner.name))
-                            self.lion_group.add(lion_offspring)
-                     
-                    #if stuck by a water source
-                    for water in self.water:
-                        if i == water.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            lion.move(x,y)
-                    #if stuck by a moutain
-                    for mount in self.mountain:
-                        if i == mount.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            lion.move(x,y)
-                    #if stuck by boundary
-                    for bound in self.boundary:
-                        if i == bound.getlocation():
-                            x = random.randint(-1,1); y= random.randint(-1,1)
-                            lion.move(x,y)
+                    lion_neighbors = lion.get_neighbors()
+                    for i in lion_neighbors:
+                        if i == (partner.x,partner.y):
+                            randx = random.randint(-1,1); randy= random.randint(-1,1)  
+                            if  not lion.collide_with_entity(randx,randy) and not partner.collide_with_entity(randx,randy):
+                                lion_offspring = Lion(self,partner.x+randx,partner.y+randy)
+                                lion_offspring.reproduce()
+                                partner.reproduce()
+                                lion.time = pygame.time.get_ticks()
+                                partner.time = pygame.time.get_ticks()
+                                print("Lion " + str(lion_offspring.name) + " "+str(lion_offspring.gender) + " was born!" + "Father is " + str(lion.name) +" and "+"Mother is " + str(partner.name))
+                                self.lion_group.add(lion_offspring)
+                        
+                        #if stuck by a water source
+                        for water in self.water:
+                            if i == water.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                lion.move(x,y)
+                        #if stuck by a moutain
+                        for mount in self.mountain:
+                            if i == mount.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                lion.move(x,y)
+                        #if stuck by boundary
+                        for bound in self.boundary:
+                            if i == bound.getlocation():
+                                x = random.randint(-1,1); y= random.randint(-1,1)
+                                lion.move(x,y)
 
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 lion.move(x,y)
+
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

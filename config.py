@@ -17,8 +17,8 @@ FPS = 1
 TITLE = "Animal Kindom"
 
 #Game inputs
-max_hunger_limit = 30
-max_thirst_limit = 40
+max_hunger_limit = 100
+max_thirst_limit = 100
 
 #lion
 num_lions = 3
@@ -28,18 +28,18 @@ lion_hunger_depletion_rate = random.randint(1,2) #larger number = higher
 lion_thirst_rate = random.randint(1,2) #larger number = higher 
 
 #wolf
-num_wolves = 5
+num_wolves = 4
 wolf_breeding_cooldown = 20000 #Large number = longer time for female wolves to be ready for mating 
 wolf_reproduction_rate = random.randint(1,2) #larger number = higher 
 wolf_hunger_depletion_rate = random.randint(1,2) #larger number = higher 
 wolf_thirst_rate = random.randint(1,2) #larger number = higher 
 
 #rabbit
-num_rabbits = 10
-rabbit_breeding_cooldown = 5000 #Large number = longer time for female rabbits to be ready for mating 
+num_rabbits = 8
+rabbit_breeding_cooldown = 10000 #Large number = longer time for female rabbits to be ready for mating 
 rabbit_reproduction_rate = random.randint(0,5) #larger number = higher 
-rabbit_hunger_depletion_rate = random.randint(1,2) #larger number = higher 
-rabbit_thirst_rate = random.randint(1,2) #larger number = higher 
+rabbit_hunger_depletion_rate = random.randint(1,5) #larger number = higher 
+rabbit_thirst_rate = random.randint(1,3) #larger number = higher 
 
 map =[]
 with open(path.join('map.txt'),'r') as file:

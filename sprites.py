@@ -8,7 +8,7 @@ class Lion(pygame.sprite.Sprite):
         self.groups = game.all_sprites, game.lion_group
         self._layer = 2
         pygame.sprite.Sprite.__init__(self,self.groups)
-        self.name =  random.choice(['A','B','C'])+ str(random.randint(0,5))
+        self.name = random.choice(['A','B','C'])+ str(random.randint(0,5))
         self.gender = random.choice(['m','f'])
         self.game =game
         self.image = pygame.image.load("images/lion.png").convert_alpha()
@@ -316,7 +316,7 @@ class Grass(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/grass.png").convert_alpha()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
-        self.cooldown = 5000
+        self.cooldown = 20000
         self.x = x 
         self.y = y
         self.rect.x = x*GRIDWIDTH
