@@ -23,14 +23,11 @@ class Lion(pygame.sprite.Sprite):
         self.rect.y = y*GRIDHEIGHT
         self.hunger_limit = max_hunger_limit
         self.hungry = True 
-        self.can_hunt = False
         self.thirst_limit = max_thirst_limit
         self.closest_water = ()
-        self.thirsty = True
         self.can_breed = False
-        self.mated = True
-        self.breeding = False
-        self.breedingCooldown = 500
+        self.mated = False
+        self.breedingCooldown = 100
         self.reproduction_level = 100
 
     def move(self, dx=0, dy=0):
@@ -81,6 +78,7 @@ class Lion(pygame.sprite.Sprite):
     def ate(self):
         self.hungry = False
         self.hunger_limit = max_hunger_limit
+        print(str(self.name) + " ate")
 
     def drink(self):    
         self.thirst = False
@@ -88,7 +86,7 @@ class Lion(pygame.sprite.Sprite):
 
     def reproduce(self):
         self.mated = True
-        self.reproduction_level == 100
+        self.reproduction_level = 200
         self.can_breed = False
         self.breedingCooldown = 5000
 
@@ -112,13 +110,11 @@ class Wolf(pygame.sprite.Sprite):
         self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
         self.image.blit(self.text,[0,0])
         self.hunger_limit = max_hunger_limit
-        self.hungry = True 
-        self.can_hunt = False
+        self.hungry = True
         self.thirst_limit = max_thirst_limit
         self.closest_water = ()
-        self.thirsty = True
         self.can_breed = False
-        self.mated = True
+        self.mated = False
         self.breeding = False
         self.breedingCooldown = 500
         self.reproduction_level = 100

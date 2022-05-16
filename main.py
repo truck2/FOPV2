@@ -1,4 +1,5 @@
 from xml.sax.handler import property_declaration_handler
+from numpy import False_
 import pygame 
 import sys
 import random
@@ -163,7 +164,7 @@ class Game:
     def run(self):
         self.playing = True
         while self.playing:
-            self.dt = self.clock.tick(FPS)
+            self.dt = self.clock.tick(FPS/1.2)
             self.events()
             self.update()
             self.draw()
@@ -197,10 +198,14 @@ class Game:
             pos = pygame.math.Vector2(wolf.x, wolf.y)
             wolf_offspring = pygame.sprite.Sprite()
 
-            #always to try to run away from Lions
+            #runaway from lions are close by
             if self.lion_group:
                 predator_lion = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-            run_away(wolf,predator_lion)
+
+                wolf_neighbors = wolf.get_neighbors()
+                for i in wolf_neighbors:
+                    if i == (predator_lion.x,predator_lion.y):
+                        run_away(wolf,predator_lion)
             
             #if wolves are hungry
             if wolf.hunger_limit <=0:
@@ -246,8 +251,12 @@ class Game:
                     partner = min([e for e in self.wolf_group if e is not wolf and e.gender =='m'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
             except ValueError:
                 print("Not enough WOLF Female/male partners")
+            
+            lion.breedingCooldown -= 10
+            if lion.breedingCooldown <=0:
+                lion.can_breed = True
 
-            if wolf.reproduction_level >=50 and wolf.can_breed ==True and wolf.mated == False: #Find nearst opposite gender
+            if wolf.reproduction_level <=0 and wolf.can_breed ==True and wolf.mated == False: #Find nearst opposite gender
                 print("Wolf " +str(wolf.name) +" "+ str(wolf.gender) +" is ready to mate")
 
                 chase(wolf,partner)
@@ -257,7 +266,7 @@ class Game:
                     if i == (partner.x,partner.y):
                         randx = random.randint(-1,1); randy= random.randint(-1,1)
                         if not wolf.collide_with_entity(randx,randy):
-                            wolf_offspring = Lion(self,partner.x+randx,partner.y+randy)
+                            wolf_offspring = Wolf(self,partner.x+randx,partner.y+randy)
                             wolf.reproduce()
                             print("Lion " + str(wolf_offspring.name) + " "+str(wolf_offspring.gender) + " was born!")
                             self.wolf_group.add(wolf_offspring)
@@ -289,16 +298,16 @@ class Game:
 
 
         for lion in self.lion_group:
-            #calculate the closest watersource for each lion
+
+            partner = pygame.math.Vector2()
             prey = ()
             prey_rabbit = pygame.math.Vector2()
             prey_deer = pygame.math.Vector2()
             prey_wolf = pygame.math.Vector2()
             lion.thirst_limit -= random.randint(1,2)
             lion.hunger_limit -= random.randint(1,2)
-            lion.reproduction_level += random.randint(1,2)
+            lion.reproduction_level -= random.randint(1,2)
             lion_offspring = pygame.sprite.Sprite()
-            partner = pygame.math.Vector2()
             if lion.thirst_limit <=0: #if lion is thirst then we look for the nearst water.
                 print("Lion " +str(lion.name) + " is Thirsty")
                 look_for_nearst_water(lion)
@@ -332,24 +341,20 @@ class Game:
                         prey.kill()
                         lion.ate()
 
-            lion.breedingCooldown -= 50
-            if lion.breedingCooldown <= 0:
+            lion.breedingCooldown -= 10
+            if lion.breedingCooldown <=0:
                 lion.can_breed = True
-                lion.mated = False
-                lion_offspring.can_breed = True
 
-            partner = pygame.math.Vector2()
-            pos = pygame.math.Vector2(lion.x, lion.y)
-            try:
-                if lion.gender == 'm':
-                    partner = min([e for e in self.lion_group if e is not lion and e.gender =='f'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                else:
-                    partner = min([e for e in self.lion_group if e is not lion and e.gender =='m'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-            except ValueError:
-                print("Not enough LION Female/male partners")
-
-            if lion.reproduction_level >=50 and lion.can_breed ==True and lion.mated == False: #Find nearst opposite gender
+            if lion.reproduction_level <=0 and lion.can_breed ==True and lion.mated == False: #Find nearst opposite gender
                 print("Lion " +str(lion.name) +" "+ str(lion.gender) +" is ready to mate")
+                pos = pygame.math.Vector2(lion.x, lion.y)
+                try:
+                    if lion.gender == 'm': #locate nearst female 
+                        partner = min([e for e in self.lion_group if e is not lion and e.gender =='f'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                    else:
+                        partner = min([e for e in self.lion_group if e is not lion and e.gender =='m'], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                except ValueError:
+                    print("Not enough LION Female/male partners")
 
                 chase(lion,partner)
 
@@ -357,12 +362,14 @@ class Game:
                 for i in lion_neighbors:
                     if i == (partner.x,partner.y):
                         randx = random.randint(-1,1); randy= random.randint(-1,1)
-                        if not lion.collide_with_entity(randx,randy):
+                        if lion.collide_with_entity(randx,randy):
+                            continue
+                        else:
                             lion_offspring = Lion(self,partner.x+randx,partner.y+randy)
                             lion.reproduce()
                             print("Lion " + str(lion_offspring.name) + " "+str(lion_offspring.gender) + " was born!")
                             self.lion_group.add(lion_offspring)
-
+                     
                     #if stuck by a water source
                     for water in self.water:
                         if i == water.getlocation():
@@ -373,6 +380,7 @@ class Game:
                         if i == mount.getlocation():
                             x = random.randint(-1,1); y= random.randint(-1,1)
                             lion.move(x,y)
+
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 lion.move(x,y)
