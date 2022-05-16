@@ -1,4 +1,5 @@
 from os import path
+import random
 
 #colours
 WHITE = (255,255,255)
@@ -10,18 +11,35 @@ DARKGREY = (40,40,40)
 
 #Game settings
 
-WIDTH = 900
-HEIGHT = 700
+WIDTH = 1280
+HEIGHT = 1024
 FPS = 1
 TITLE = "Animal Kindom"
 
 #Game inputs
 max_hunger_limit = 30
 max_thirst_limit = 40
+
+#lion
 num_lions = 3
+lion_breeding_cooldown = 50000 #Large number = longer time for female lions to be ready for mating 
+lion_reproduction_rate = random.randint(1,2) #larger number = higher 
+lion_hunger_depletion_rate = random.randint(1,2) #larger number = higher 
+lion_thirst_rate = random.randint(1,2) #larger number = higher 
+
+#wolf
 num_wolves = 5
+wolf_breeding_cooldown = 20000 #Large number = longer time for female wolves to be ready for mating 
+wolf_reproduction_rate = random.randint(1,2) #larger number = higher 
+wolf_hunger_depletion_rate = random.randint(1,2) #larger number = higher 
+wolf_thirst_rate = random.randint(1,2) #larger number = higher 
+
+#rabbit
 num_rabbits = 10
-num_deers = 7
+rabbit_breeding_cooldown = 5000 #Large number = longer time for female rabbits to be ready for mating 
+rabbit_reproduction_rate = random.randint(0,5) #larger number = higher 
+rabbit_hunger_depletion_rate = random.randint(1,2) #larger number = higher 
+rabbit_thirst_rate = random.randint(1,2) #larger number = higher 
 
 map =[]
 with open(path.join('map.txt'),'r') as file:
@@ -29,7 +47,7 @@ with open(path.join('map.txt'),'r') as file:
         map.append(line.strip())
     file.close()
 
-NO_OF_BLOCKS_WIDE = len(map[0])
-NO_OF_BLOCKS_HIGH = len(map)
-GRIDWIDTH = round(WIDTH/NO_OF_BLOCKS_WIDE)
+NO_OF_BLOCKS_WIDE = len(map[0]) 
+NO_OF_BLOCKS_HIGH = len(map) 
+GRIDWIDTH = round(WIDTH/NO_OF_BLOCKS_WIDE) 
 GRIDHEIGHT = round(HEIGHT/NO_OF_BLOCKS_HIGH)
