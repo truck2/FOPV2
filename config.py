@@ -10,8 +10,8 @@ DARKGREY = (40,40,40)
 
 #Game settings
 
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 900
+HEIGHT = 700
 FPS = 1
 TITLE = "Animal Kindom"
 

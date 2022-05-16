@@ -252,9 +252,9 @@ class Game:
             except ValueError:
                 print("Not enough WOLF Female/male partners")
             
-            lion.breedingCooldown -= 10
-            if lion.breedingCooldown <=0:
-                lion.can_breed = True
+            wolf.breedingCooldown -= 10
+            if wolf.breedingCooldown <=0:
+                wolf.can_breed = True
 
             if wolf.reproduction_level <=0 and wolf.can_breed ==True and wolf.mated == False: #Find nearst opposite gender
                 print("Wolf " +str(wolf.name) +" "+ str(wolf.gender) +" is ready to mate")
