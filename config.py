@@ -32,7 +32,7 @@ lion_thirst_rate = random.randint(1,2) #larger number = higher
 lion_thirst_threshhold = 80 #starts activily seeking for water
 
 #wolf
-num_wolves = 4
+num_wolves = 4 
 wolf_breeding_cooldown = 20000 #Large number = longer time for female wolves to be ready for mating 
 wolf_reproduction_rate = random.randint(1,2) #larger number = higher 
 wolf_mating_threshold = 70 #ready for mating, higher number = ready faster

@@ -12,7 +12,6 @@ from copy import deepcopy
 valid_spawning_area = []
 water_sources = []
 
-
 lion_location = ()
 wolf_location = ()
 rabbit_location = []
@@ -92,6 +91,8 @@ class Game:
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.load_data()
+        self.time = 0
+        self.playing = True
     
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -151,12 +152,21 @@ class Game:
             self.rabbit_group.add(self.rabbit)
                  
     def run(self):
-        self.playing = True
         while self.playing:
+            self.time +=1
             self.dt = self.clock.tick(FPS/1.5)
             self.events()
             self.update()
             self.draw()
+            print(self.time)
+            print(self.playing)
+
+            if self.time == 10:
+                pygame.image.save(self.screen,"plot_states/plot.jpg")
+                self.playing = False
+                pygame.quit()
+                sys.exit()
+
 
       #update portion of the gameloop
     def update(self):
@@ -539,9 +549,6 @@ class Game:
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 lion.move(x,y)
-
-
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
