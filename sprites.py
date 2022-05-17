@@ -14,7 +14,7 @@ class Lion(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/lion.png").convert_alpha()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
-        self.font = pygame.font.SysFont("sans",15)
+        self.font = pygame.font.SysFont("sans",20)
         self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
         self.image.blit(self.text,[0,0])
         self.x = x
@@ -104,7 +104,7 @@ class Wolf(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
-        self.font = pygame.font.SysFont("sans",15)
+        self.font = pygame.font.SysFont("sans",20)
         self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
         self.image.blit(self.text,[0,0])
         self.hunger_limit = max_hunger_limit
@@ -192,7 +192,7 @@ class Rabbit(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.neighbors = []
-        self.font = pygame.font.SysFont("sans",15)
+        self.font = pygame.font.SysFont("sans",20)
         self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
         self.image.blit(self.text,[0,0])
         self.hunger_limit = max_hunger_limit
