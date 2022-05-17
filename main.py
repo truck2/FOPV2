@@ -371,6 +371,7 @@ class Game:
                         partner = min([e for e in self.rabbit_group if e is not rabbit and e.gender =='f' and e.mated == False and e.can_breed ==True], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 except ValueError:
                     print("Not enough female Rabbits or Female Rabbit partners are not ready yet!")
+                    continue
 
                 if partner:
                     chase(rabbit,partner)
