@@ -7,6 +7,13 @@ from config import *
 from sprites import *
 import math
 from copy import deepcopy
+from datetime import datetime
+import logging
+
+
+# datetime object containing current date and time
+today = datetime.now()
+f_today = str(today).replace(" ","").replace(".","").replace("-","").replace(":","")
 
 #stores the x and y cordinates of preloaded terrain
 valid_spawning_area = []
@@ -16,6 +23,11 @@ lion_location = ()
 wolf_location = ()
 rabbit_location = []
 
+#From mgmalheiros on Stackoverflow
+logging.basicConfig(level=logging.INFO, format='%(message)s')
+logger = logging.getLogger()
+logger.addHandler(logging.FileHandler(path.join('Logs','simulation'+str(f_today)+'.log'), 'a'))
+print = logger.info
 
 
 def distance(startX,startY,endX,endY):
@@ -93,10 +105,11 @@ class Game:
         self.load_data()
         self.time = 0
         self.playing = True
-    
+        self.data = [["Iterations","Number of Lions","Number of Wolves","Number of Rabbits"]]
+
     def load_data(self):
-        game_folder = path.dirname(__file__)
         self.map_data =[]
+        game_folder = path.dirname(__file__)
         with open(path.join(game_folder,'map.txt'),'r') as file:
             for line in file:
                 self.map_data.append(line.strip())
@@ -150,7 +163,16 @@ class Game:
             randxy = [random.choice(valid_spawning_area)]
             self.rabbit = Rabbit(self,randxy[0][0],randxy[0][1])
             self.rabbit_group.add(self.rabbit)
-                 
+
+    def write_file(self,name,data):
+        game_folder = path.dirname(__file__) 
+        with open(path.join(game_folder,'simulations',str(name)+str(f_today))+".csv",'x') as file:
+            for lines in data:
+                l = ",".join(lines)
+                file.writelines(l+"\n")
+
+
+
     def run(self):
         while self.playing:
             self.time +=1
@@ -158,12 +180,12 @@ class Game:
             self.events()
             self.update()
             self.draw()
-            print(self.time)
-            print(self.playing)
-
-            if self.time == 10:
-                pygame.image.save(self.screen,"plot_states/plot.jpg")
+            self.data.append([str(self.time),str(len(self.lion_group)),str(len(self.wolf_group)),str(len(self.rabbit_group))]) 
+            if self.time == 200:
+                self.write_file("simulation",self.data)
+                pygame.image.save(self.screen,"plot_state_images/plot"+str(f_today)+".jpg")
                 self.playing = False
+                file.close
                 pygame.quit()
                 sys.exit()
 
@@ -234,12 +256,14 @@ class Game:
                     chase(wolf,prey_rabbit)
                     print("Wolf " +str(wolf.name) + str(wolf.gender)+ " is chasing: "+ str(prey_rabbit.name)+str(prey_rabbit.gender))
             
-                wolf_neighbors = wolf.get_neighbors()
-                for i in wolf_neighbors:
-                    if i == (prey_rabbit.x,prey_rabbit.y):
-                        prey_rabbit.kill()
-                        wolf.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                    wolf_neighbors = wolf.get_neighbors()
+                    for i in wolf_neighbors:
+                        if i == (prey_rabbit.x,prey_rabbit.y):
+                            prey_rabbit.kill()
+                            wolf.ate()
+                            print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                elif not prey_rabbit and wolf.hunger_limit<=0:
+                    wolf.kill()
 
             #if wolves are thristy.
             if wolf.thirst_limit <= wolf_thirst_threshold: #if lion is thirst then we look for the nearst water.
@@ -298,8 +322,9 @@ class Game:
                             if i == bound.getlocation():
                                 x = random.randint(-1,1); y= random.randint(-1,1)
                                 wolf.move(x,y)
-                else:
-                    continue
+                else: 
+                    x = random.randint(-1,1); y= random.randint(-1,1)
+                    wolf.move(x,y)
 
             else: #random movement
                 x = random.randint(-1,1); y= random.randint(-1,1)
@@ -413,8 +438,10 @@ class Game:
                             if i == bound.getlocation():
                                 x = random.randint(-1,1); y= random.randint(-1,1)
                                 rabbit.move(x,y)
-                else:
-                    continue
+                else: 
+                    x = random.randint(-1,1); y= random.randint(-1,1)
+                    rabbit.move(x,y)
+
 
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
@@ -446,7 +473,7 @@ class Game:
                     if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<100:  
                         prey_rabbit.kill
                         lion.ate()
-                        print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
+                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
                     else:
                             continue
                 
@@ -458,7 +485,7 @@ class Game:
                     if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<100:  
                         prey_wolf.kill
                         lion.ate()
-                        print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
+                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
                     else:
                         continue
 
@@ -481,7 +508,7 @@ class Game:
                     prey = prey_wolf
                 
                 if prey:
-                    
+
                     chase(lion,prey)
                     print("Lion"+str(lion.name)+str(lion.gender)+ "is chasing: "+str(prey.name)+str(prey.gender))
 
@@ -491,6 +518,8 @@ class Game:
                             prey.kill()
                             lion.ate()
                             print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey.name)+str(prey.gender))
+                elif not prey and lion.hunger_limit <=0:
+                    lion.kill()
     
             #cooldown for female partners after mating, males do not have cooldown
             now = pygame.time.get_ticks()
@@ -545,7 +574,9 @@ class Game:
                                 x = random.randint(-1,1); y= random.randint(-1,1)
                                 lion.move(x,y)
                 else: 
-                    continue
+                    x = random.randint(-1,1); y= random.randint(-1,1)
+                    lion.move(x,y)
+
             else:# move randomly
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 lion.move(x,y)
@@ -557,7 +588,7 @@ class Game:
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pygame.image.save(self.screen,"plot_states/plot.jpg")
+                pygame.image.save(self.screen,"plot_state_images/plot"+str(f_today)+".jpg")
                 
             
             
