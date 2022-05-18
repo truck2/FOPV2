@@ -20,10 +20,6 @@ f_today = str(today).replace(" ","").replace(".","").replace("-","").replace(":"
 valid_spawning_area = []
 water_sources = []
 
-lion_location = ()
-wolf_location = ()
-rabbit_location = []
-
 #From mgmalheiros on Stackoverflow
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger()
@@ -179,6 +175,7 @@ class Game:
         file.close()
     
     def graph_data(self,name):
+
         game_folder = path.dirname(__file__)
         iterations = [i for i in range(simulation_time)]
         data = []
@@ -195,8 +192,10 @@ class Game:
             lion_population.append(float(line[1].strip()))
             wolf_population.append(float(line[2].strip()))
             rabbit_population.append(float(line[3].strip()))
-
+        
         plt.figure(1)
+        plt.title("Population against Time")
+
         plt.subplot(311)
         plt.plot(iterations, lion_population,'r',label ="Lion")
         plt.xlabel('Iterations')
@@ -214,7 +213,8 @@ class Game:
         plt.xlabel('Iterations')
         plt.ylabel('Population')
         plt.legend()
-
+        
+        plt.savefig(path.join(game_folder,'plot_figures',str(name)+str(f_today)))
         plt.show()
 
     def run(self):
