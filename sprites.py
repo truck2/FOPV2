@@ -30,6 +30,8 @@ class Lion(pygame.sprite.Sprite):
         self.time = pygame.time.get_ticks()
         self.breedingCooldown = 0
         self.reproduction_level = 100
+        self.life_time = 0
+        self.death = lion_death_timer
 
     def move(self, dx=0, dy=0):
         if not self.collide_with_entity(dx,dy):
@@ -116,6 +118,8 @@ class Wolf(pygame.sprite.Sprite):
         self.time = pygame.time.get_ticks()
         self.breedingCooldown = 0
         self.reproduction_level = 100
+        self.life_time = 0 
+        self.wolf = wolf_death_timer
 
 
     def getlocation(self):
@@ -203,6 +207,8 @@ class Rabbit(pygame.sprite.Sprite):
         self.time = pygame.time.get_ticks()
         self.breedingCooldown = 0
         self.reproduction_level = 100
+        self.life_time = 0 
+        self.death_timer = rabbit_death_timer
 
     def move(self, dx=0, dy=0):
         if not self. collide_with_entity(dx,dy):

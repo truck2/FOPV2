@@ -9,6 +9,7 @@ import math
 from copy import deepcopy
 from datetime import datetime
 import logging
+import matplotlib.pyplot as plt
 
 
 # datetime object containing current date and time
@@ -94,7 +95,6 @@ def look_for_nearst_water(animal):
             for i in neigbors:
                 if i in water_sources:
                     animal.drink()
-                    print(str(animal.name)+ "drank water")
 
 class Game:
     def __init__(self):
@@ -105,7 +105,13 @@ class Game:
         self.load_data()
         self.time = 0
         self.playing = True
-        self.data = [["Iterations","Number of Lions","Number of Wolves","Number of Rabbits"]]
+        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation)],
+                     [" ","life span: ",str(lion_death_timer),str(wolf_death_timer),str(rabbit_death_timer)],
+                     [" ","Breeding Cooldown",str(lion_breeding_cooldown),str(wolf_breeding_cooldown),str(rabbit_breeding_cooldown)],
+                     [" "," Mating Threshold",str(lion_mating_threshold),str(wolf_mating_threshold),str(rabbit_mating_threshold)],
+                     [" ","Hunger Threshold",str(lion_hunger_threshold),str(wolf_hunger_threshold),str(rabbit_hunger_threshold)],
+                     [" ","Thirst Threshold",str(lion_thirst_threshold),str(wolf_thirst_threshold),str(rabbit_thirst_threshold)],
+                     ["Iterations","Number of Lions","Number of Wolves","Number of Rabbits"]]
 
     def load_data(self):
         self.map_data =[]
@@ -113,7 +119,7 @@ class Game:
         with open(path.join(game_folder,'map.txt'),'r') as file:
             for line in file:
                 self.map_data.append(line.strip())
-            file.close()
+        file.close()
 
     def new(self):
         self.all_sprites =pygame.sprite.LayeredUpdates()
@@ -170,24 +176,63 @@ class Game:
             for lines in data:
                 l = ",".join(lines)
                 file.writelines(l+"\n")
+        file.close()
+    
+    def graph_data(self,name):
+        game_folder = path.dirname(__file__)
+        iterations = [i for i in range(simulation_time)]
+        data = []
+        lion_population = []
+        wolf_population = []
+        rabbit_population = []
+        with open(path.join(game_folder,'simulations',str(name)+str(f_today))+".csv",'r') as file:
+            for line in file:
+                string = line.split(',')
+                data.append(string)
+        file.close()
 
+        for line in data[7:]:
+            lion_population.append(float(line[1].strip()))
+            wolf_population.append(float(line[2].strip()))
+            rabbit_population.append(float(line[3].strip()))
 
+        plt.figure(1)
+        plt.subplot(311)
+        plt.plot(iterations, lion_population,'r',label ="Lion")
+        plt.xlabel('Iterations')
+        plt.ylabel('Population')
+        plt.legend()
+
+        plt.subplot(312)
+        plt.plot(iterations,wolf_population,'b',label ="Wolf")
+        plt.xlabel('Iterations')
+        plt.ylabel('Population')
+        plt.legend()
+
+        plt.subplot(313)
+        plt.plot(iterations,rabbit_population,label ="Rabbit")
+        plt.xlabel('Iterations')
+        plt.ylabel('Population')
+        plt.legend()
+
+        plt.show()
 
     def run(self):
         while self.playing:
             self.time +=1
-            self.dt = self.clock.tick(FPS/1.5)
+            self.dt = self.clock.tick(FPS)
             self.events()
             self.update()
             self.draw()
             self.data.append([str(self.time),str(len(self.lion_group)),str(len(self.wolf_group)),str(len(self.rabbit_group))]) 
-            if self.time == 200:
+            if self.time == simulation_time:
                 self.write_file("simulation",self.data)
                 pygame.image.save(self.screen,"plot_state_images/plot"+str(f_today)+".jpg")
                 self.playing = False
-                file.close
+                self.graph_data("simulation")
                 pygame.quit()
                 sys.exit()
+
 
 
       #update portion of the gameloop
@@ -211,6 +256,8 @@ class Game:
         self.screen.blit(self.text,[0,0])
         pygame.display.flip()
 
+    
+
     def events(self):
 
        #---------------------------------------------------------#Wolf Movement ---------------------------------------------------------------------------------------------------------------------------#
@@ -225,22 +272,25 @@ class Game:
             wolf.reproduction_level -= wolf_reproduction_rate 
             wolf_offspring = pygame.sprite.Sprite()
 
+            wolf.life_time +=1
+            if wolf.life_time == wolf_death_timer:
+                wolf.kill()
+                print("Wolf " + str(wolf.name) + str(wolf.gender)+ " Died of Old Age")
+
             #runaway from lions are close by
             if self.lion_group:
                 pos = pygame.math.Vector2(wolf.x, wolf.y)
                 predator_lion = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                wolf_neighbors = wolf.get_neighbors()
-                for neighbours in wolf_neighbors:
-                    if neighbours == (predator_lion.x,predator_lion.y):
-                        run_away(wolf,predator_lion)
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " is running away from: "+ str(predator_lion.name))
+                if pos.distance_to(pygame.math.Vector2(predator_lion.x, predator_lion.y)) <= distance_of_interation:
+                    run_away(wolf,predator_lion)
+                    print("Wolf " +str(wolf.name) + str(wolf.gender)+ " is running away from: "+ "Lion" + str(predator_lion.name))
 
             if self.rabbit_group:
                 pos = pygame.math.Vector2(wolf.x, wolf.y)
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 wolf_neighbors = wolf.get_neighbors()
                 for i in wolf_neighbors:
-                    if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<100:
+                    if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<95:
                         prey_rabbit.kill()
                         wolf.ate()
                         print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
@@ -262,13 +312,15 @@ class Game:
                             prey_rabbit.kill()
                             wolf.ate()
                             print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
-                elif not prey_rabbit and wolf.hunger_limit<=0:
+                elif not prey_rabbit or wolf.hunger_limit<=0:
                     wolf.kill()
+                    print("Wolf"+ str(wolf.name)+ str(wolf.gender)+ "died of hunger")
 
             #if wolves are thristy.
             if wolf.thirst_limit <= wolf_thirst_threshold: #if lion is thirst then we look for the nearst water.
                 print("Wolf " +str(wolf.name) + " is Thirsty")
                 look_for_nearst_water(wolf)
+                print("Wolf " + str(wolf.name)+ "drank water")
     
             now = pygame.time.get_ticks()
             breeding_cooldown = wolf.breedingCooldown
@@ -344,28 +396,31 @@ class Game:
             rabbit.reproduction_level -= rabbit_reproduction_rate
             rabbit_offspring = pygame.sprite.Sprite()
 
+            rabbit.life_time +=1
+            if rabbit.life_time == rabbit_death_timer:
+                rabbit.kill()
+                print("rabbit " + str(rabbit.name) + str(rabbit.gender)+ " Died of Old Age")
+                
+
             if rabbit.thirst_limit <= rabbit_thirst_threshold:
                 print("Rabbit " +str(rabbit.name) + " is Thirsty")
                 look_for_nearst_water(rabbit)
+                print("Rabbit " + str(rabbit.name)+ "drank water")
                 
             #run away from predators, if they are nearby
             if self.lion_group:
                 pos = pygame.math.Vector2(rabbit.x, rabbit.y)
                 predator_lion = min([e for e in self.lion_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                rabbit_neighbors = rabbit.get_neighbors()
-                for neighbours in rabbit_neighbors:
-                    if neighbours == (predator_lion.x,predator_lion.y):
-                        run_away(wolf,predator_lion)
-                        print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Lion"+ str(predator_lion.name))
+                if pos.distance_to(pygame.math.Vector2(predator_lion.x, predator_lion.y)) <= distance_of_interation:
+                    run_away(rabbit,predator_lion)
+                    print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Lion"+ str(predator_lion.name))
 
             if self.wolf_group:
                 pos = pygame.math.Vector2(rabbit.x, rabbit.y)
                 predator_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                rabbit_neighbors = rabbit.get_neighbors()
-                for neighbours in rabbit_neighbors:
-                    if neighbours == (predator_lion.x,predator_lion.y):
-                        run_away(wolf,predator_wolf)
-                        print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Wolf"+ str(predator_wolf.name)) 
+                if pos.distance_to(pygame.math.Vector2(predator_wolf.x, predator_wolf.y)) <= distance_of_interation:
+                    run_away(rabbit,predator_wolf)
+                    print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Wolf"+ str(predator_wolf.name)) 
 
             if rabbit.hunger_limit <= rabbit_hunger_threshold:
                 print("Rabbit " +str(rabbit.name) + " is Hungry")
@@ -459,18 +514,23 @@ class Game:
             lion.thirst_limit -= lion_thirst_rate
             lion.hunger_limit -= lion_hunger_depletion_rate
             lion.reproduction_level -= lion_reproduction_rate
+            lion.life_time +=1
+            if lion.life_time == lion_death_timer:
+                lion.kill()
+                print("Lion " + str(lion.name) + str(lion.gender)+ " Died of Old Age")
 
             lion_offspring = pygame.sprite.Sprite()
-            if lion.thirst_limit <=lion_thirst_threshhold: #if lion is thirst then we look for the nearst water.
+            if lion.thirst_limit <=lion_thirst_threshold: #if lion is thirst then we look for the nearst water.
                 print("Lion " +str(lion.name) + " is Thirsty")
                 look_for_nearst_water(lion)
+                print("Lion " + str(lion.name)+ "drank water")
             
             if self.rabbit_group:
                 pos = pygame.math.Vector2(lion.x, lion.y)
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 lion_neighbors = lion.get_neighbors()
                 for i in lion_neighbors:
-                    if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<100:  
+                    if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<95:  
                         prey_rabbit.kill
                         lion.ate()
                         print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
@@ -482,7 +542,7 @@ class Game:
                 prey_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
                 lion_neighbors = lion.get_neighbors()
                 for i in lion_neighbors:
-                    if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<100:  
+                    if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<95:  
                         prey_wolf.kill
                         lion.ate()
                         print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
@@ -518,8 +578,9 @@ class Game:
                             prey.kill()
                             lion.ate()
                             print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey.name)+str(prey.gender))
-                elif not prey and lion.hunger_limit <=0:
+                elif not prey or lion.hunger_limit <=0:
                     lion.kill()
+                    print("Lion"+ str(lion.name)+ str(lion.gender)+ "died of hunger")
     
             #cooldown for female partners after mating, males do not have cooldown
             now = pygame.time.get_ticks()
