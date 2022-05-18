@@ -95,13 +95,13 @@ def look_for_nearst_water(animal):
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT),pygame.DOUBLEBUF)
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
         self.load_data()
         self.time = 0
         self.playing = True
-        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation)],
+        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation),"Grass grow time(ticks): "+str(grass_grow_time)],
                      [" ","life span: ",str(lion_death_timer),str(wolf_death_timer),str(rabbit_death_timer)],
                      [" ","Breeding Cooldown",str(lion_breeding_cooldown),str(wolf_breeding_cooldown),str(rabbit_breeding_cooldown)],
                      [" "," Mating Threshold",str(lion_mating_threshold),str(wolf_mating_threshold),str(rabbit_mating_threshold)],
@@ -193,9 +193,8 @@ class Game:
             wolf_population.append(float(line[2].strip()))
             rabbit_population.append(float(line[3].strip()))
         
-        plt.figure(1)
-        plt.title("Population against Time")
-
+        plt.figure("Population against Time")
+    
         plt.subplot(311)
         plt.plot(iterations, lion_population,'r',label ="Lion")
         plt.xlabel('Iterations')
@@ -252,7 +251,7 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.draw_grid()
         self.font = pygame.font.SysFont("sans",50)
-        self.text = self.font.render( "          "+"nLions: "+ str(len(self.lion_group))+ "          "+"nWolves: "+str(len(self.wolf_group))+ "          "+ "nRabbits: "+str(len(self.rabbit_group)),True, BLACK)
+        self.text = self.font.render( "Time Left: "+str(simulation_time-self.time)+"  "+"nLions: "+ str(len(self.lion_group))+ "  "+"nWolves: "+str(len(self.wolf_group))+ "  "+ "nRabbits: "+str(len(self.rabbit_group)),True, RED)
         self.screen.blit(self.text,[0,0])
         pygame.display.flip()
 
@@ -314,7 +313,7 @@ class Game:
                             print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
                 elif not prey_rabbit or wolf.hunger_limit<=0:
                     wolf.kill()
-                    print("Wolf"+ str(wolf.name)+ str(wolf.gender)+ "died of hunger")
+                    print("Wolf"+ str(wolf.name)+ str(wolf.gender)+ " died of hunger")
 
             #if wolves are thristy.
             if wolf.thirst_limit <= wolf_thirst_threshold: #if lion is thirst then we look for the nearst water.
@@ -405,7 +404,7 @@ class Game:
             if rabbit.thirst_limit <= rabbit_thirst_threshold:
                 print("Rabbit " +str(rabbit.name) + " is Thirsty")
                 look_for_nearst_water(rabbit)
-                print("Rabbit " + str(rabbit.name)+ "drank water")
+                print("Rabbit " + str(rabbit.name)+ " drank water")
                 
             #run away from predators, if they are nearby
             if self.lion_group:
@@ -424,34 +423,38 @@ class Game:
 
             if rabbit.hunger_limit <= rabbit_hunger_threshold:
                 print("Rabbit " +str(rabbit.name) + " is Hungry")
+
+                if not self.grass_group  or rabbit.hunger_limit<=0:
+                    rabbit.kill()
+                    print("Rabbit"+str(rabbit.name)+str(rabbit.gender)+ " died of hunger")
+
                 for grass in self.grass_group:
                     grass_cooldown = grass.cooldown
-                    grass_time = grass.time
                     if grass.getlocation() == rabbit.getlocation():
-                        grass_time = pygame.time.get_ticks()
+                        grass.time = pygame.time.get_ticks()
+                        grass_time = grass.time
                         grassLoc = grass.getlocation()
                         grass.kill()
                         self.soil = Soil(self,grassLoc[0],grassLoc[1])
                         self.soil_group.add(self.soil)
                         rabbit.ate()
-                        print("Rabbit "+str(rabbit.name)+str(rabbit.gender) + "ate")
-
-            grass_start = pygame.time.get_ticks()
-            if grass_start-grass_time>=int(grass_cooldown):
-                for soil in self.soil_group:
-                    soil_loc = soil.getlocation()
-                    soil.kill()
-                    self.grass = Grass(self,soil_loc[0],soil_loc[1])
-                    self.grass_group.add(self.grass)
+                        print("Rabbit "+str(rabbit.name)+str(rabbit.gender) + " ate")
+                      
+                    grass_now = pygame.time.get_ticks()
+                    if grass_now-grass_time>=int(grass_cooldown):
+                        for soil in self.soil_group:
+                            soil_loc = soil.getlocation()
+                            soil.kill()
+                            self.grass = Grass(self,soil_loc[0],soil_loc[1])
+                            self.grass_group.add(self.grass)
 
             now = pygame.time.get_ticks()
             breeding_cooldown = rabbit.breedingCooldown
             if now-rabbit.time >= int(breeding_cooldown):
                 rabbit.can_breed = True
                 rabbit.mated = False
-        
 
-            #print("Rabbit "+str(rabbit.name)+ " " + str(now) +" "+ str(rabbit.time) +" "+ str(breeding_cooldown)+" "+ str(rabbit.can_breed) + " " + str(rabbit.reproduction_level)+ " " + str(rabbit.mated))
+            
             if rabbit.reproduction_level <= rabbit_mating_threshold and rabbit.can_breed ==True and rabbit.mated == False: #Find nearst opposite gender
                 print("Rabbit " +str(rabbit.name) +" "+ str(rabbit.gender) +" is ready to mate")
 
@@ -523,7 +526,7 @@ class Game:
             if lion.thirst_limit <=lion_thirst_threshold: #if lion is thirst then we look for the nearst water.
                 print("Lion " +str(lion.name) + " is Thirsty")
                 look_for_nearst_water(lion)
-                print("Lion " + str(lion.name)+ "drank water")
+                print("Lion " + str(lion.name)+ " drank water")
             
             if self.rabbit_group:
                 pos = pygame.math.Vector2(lion.x, lion.y)
@@ -533,7 +536,7 @@ class Game:
                     if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<95:  
                         prey_rabbit.kill
                         lion.ate()
-                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
+                        print("Lion "+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
                     else:
                             continue
                 
@@ -545,7 +548,7 @@ class Game:
                     if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<95:  
                         prey_wolf.kill
                         lion.ate()
-                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
+                        print("Lion "+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
                     else:
                         continue
 
@@ -577,10 +580,10 @@ class Game:
                         if i == (prey.x,prey.y):
                             prey.kill()
                             lion.ate()
-                            print("Lion"+str(lion.name)+str(lion.gender)+ "ate: "+str(prey.name)+str(prey.gender))
+                            print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey.name)+str(prey.gender))
                 elif not prey or lion.hunger_limit <=0:
                     lion.kill()
-                    print("Lion"+ str(lion.name)+ str(lion.gender)+ "died of hunger")
+                    print("Lion"+ str(lion.name)+ str(lion.gender)+ " died of hunger")
     
             #cooldown for female partners after mating, males do not have cooldown
             now = pygame.time.get_ticks()

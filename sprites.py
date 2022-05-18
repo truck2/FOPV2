@@ -15,7 +15,7 @@ class Lion(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
         self.font = pygame.font.SysFont("sans",20)
-        self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
+        self.text = self.font.render(str(self.name) + str(self.gender),True, RED)
         self.image.blit(self.text,[0,0])
         self.x = x
         self.y = y
@@ -78,7 +78,6 @@ class Lion(pygame.sprite.Sprite):
 
     def ate(self):
         self.hunger_limit = max_hunger_limit
-        print(str(self.name) + " ate")
 
     def drink(self):    
         self.thirst = False
@@ -107,7 +106,7 @@ class Wolf(pygame.sprite.Sprite):
         self.rect.x = x*GRIDWIDTH
         self.rect.y = y*GRIDHEIGHT
         self.font = pygame.font.SysFont("sans",20)
-        self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
+        self.text = self.font.render(str(self.name) + str(self.gender),True, RED)
         self.image.blit(self.text,[0,0])
         self.hunger_limit = max_hunger_limit
         self.hungry = True 
@@ -197,7 +196,7 @@ class Rabbit(pygame.sprite.Sprite):
         self.y = y
         self.neighbors = []
         self.font = pygame.font.SysFont("sans",20)
-        self.text = self.font.render(str(self.name) + str(self.gender),True, BLACK)
+        self.text = self.font.render(str(self.name) + str(self.gender),True, RED)
         self.image.blit(self.text,[0,0])
         self.hunger_limit = max_hunger_limit
         self.thirst_limit = max_thirst_limit
@@ -322,7 +321,7 @@ class Grass(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/grass.png").convert_alpha()
         self.image = pygame.transform.scale(self.image,(GRIDWIDTH,GRIDHEIGHT))
         self.rect = self.image.get_rect()
-        self.cooldown = 20000
+        self.cooldown = grass_grow_time
         self.x = x 
         self.y = y
         self.rect.x = x*GRIDWIDTH
@@ -331,6 +330,8 @@ class Grass(pygame.sprite.Sprite):
 
     def getlocation(self):
             return (self.x, self.y)
+    
+
 
 class Soil(pygame.sprite.Sprite):
     def __init__(self,game,x,y):
