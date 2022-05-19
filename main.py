@@ -214,7 +214,7 @@ class Game:
         plt.legend()
         
         plt.savefig(path.join(game_folder,'plot_figures',str(name)+str(f_today)))
-        #plt.show()
+        plt.show()
 
     def run(self):
         while self.playing:
