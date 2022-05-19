@@ -60,15 +60,6 @@ class Lion(pygame.sprite.Sprite):
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
                 return True
-        for l in self.game.lion_group:
-            if l.x == self.x + dx and l.y == self.y + dy:
-                return True
-        for wo in self.game.wolf_group:
-            if wo.x == self.x + dx and wo.y == self.y + dy:
-                return True
-        for r in self.game.rabbit_group:
-            if r.x == self.x + dx and r.y == self.y + dy:
-                return True
         return False
 
     def update(self):
@@ -148,15 +139,6 @@ class Wolf(pygame.sprite.Sprite):
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
                 return True
-        for l in self.game.lion_group:
-            if l.x == self.x + dx and l.y == self.y + dy:
-                return True
-        for wo in self.game.wolf_group:
-            if wo.x == self.x + dx and wo.y == self.y + dy:
-                return True
-        for r in self.game.rabbit_group:
-            if r.x == self.x + dx and r.y == self.y + dy:
-                return True
         return False
 
     def update(self):
@@ -235,15 +217,6 @@ class Rabbit(pygame.sprite.Sprite):
                 return True
         for w in self.game.water:
             if w.x == self.x + dx and w.y == self.y + dy:
-                return True
-        for l in self.game.lion_group:
-            if l.x == self.x + dx and l.y == self.y + dy:
-                return True
-        for wo in self.game.wolf_group:
-            if wo.x == self.x + dx and wo.y == self.y + dy:
-                return True
-        for r in self.game.rabbit_group:
-            if r.x == self.x + dx and r.y == self.y + dy:
                 return True
         return False
 

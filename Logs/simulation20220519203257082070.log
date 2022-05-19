@@ -1,0 +1,675 @@
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit A3 is Hungry
+Rabbit A3f ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit A5 is Hungry
+Rabbit A5m ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit C2 is Hungry
+Rabbit C2f ate
+Rabbit C2 is Hungry
+Rabbit C2f ate
+Rabbit A2m is running away from: LionB4
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B1f is running away from: WolfC1
+Rabbit B1 is Hungry
+Rabbit B1f ate
+Rabbit A4 is Hungry
+Rabbit A4f ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Wolf B5m is running away from: LionB4
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit A3 is Hungry
+Rabbit A3f ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit A5 is Hungry
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit C2 is Hungry
+Rabbit C2f ate
+Rabbit C2 is Hungry
+Rabbit C2f ate
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit C0 is Hungry
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B1 is Hungry
+Rabbit A4 is Hungry
+Rabbit A4f ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B3 is Hungry
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit A3 is Hungry
+Rabbit A3f ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit A5 is Hungry
+Rabbit A5m ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit C2 is Hungry
+Rabbit C2f ate
+Rabbit C2 is Hungry
+Rabbit A2 is Hungry
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit B5 is Hungry
+Rabbit B1 is Hungry
+Rabbit B1f ate
+Rabbit A4 is Hungry
+Rabbit A4f ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit B4 is Hungry
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Wolf C3 f is ready to mate
+Wolf C1 f is ready to mate
+Wolf B5 m is ready to mate
+Wolf C2 f is ready to mate
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit A3 is Hungry
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit A5 is Hungry
+Rabbit A5m ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit C2 is Hungry
+Rabbit C2 is Hungry
+Rabbit A2m is running away from: LionA4
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B1 is Hungry
+Rabbit B1f ate
+Rabbit A4 is Hungry
+Rabbit A4f ate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Lion A4f ate: A2m
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: B1f
+Wolf C1 f is ready to mate
+Wolf B5 is Hungry
+Wolf B5m is chasing: A4f
+Wolf B5 m is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A5m
+Wolf C2f ate!
+Wolf C2 f is ready to mate
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit C4 f is ready to mate
+Rabbit A3 is Hungry
+Rabbit A3f ate
+Rabbit A3 f is ready to mate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B4 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B4f
+Rabbit C1 f was born!Father is A1 and Mother is B4
+Rabbit C2 is Hungry
+Rabbit C2 f is ready to mate
+rabbit C2f Died of Old Age
+Rabbit C2 is Hungry
+RabbitC2f died of hunger
+Rabbit C2f ate
+Rabbit C2 f is ready to mate
+Rabbit A2m is running away from: LionA4
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit C4f
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B4f
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit B1f is running away from: WolfC1
+Rabbit B1 is Hungry
+Rabbit B1f ate
+Rabbit B1 f is ready to mate
+Rabbit A4f is running away from: LionB4
+Rabbit A4f is running away from: WolfB5
+Rabbit A4 is Hungry
+Rabbit A4f ate
+Rabbit A4 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit A3f
+Rabbit B4 is Hungry
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B4f
+Lion B4f ate: B5m
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: B1f
+Wolf C1 f is ready to mate
+Wolf B5m is running away from: LionB4
+Wolf B5m ate!
+Wolf B5 m is ready to mate
+Wolf C2 f is ready to mate
+Rabbit C4 is Hungry
+Rabbit C4 f is ready to mate
+Rabbit A3 is Hungry
+Rabbit A3 f is ready to mate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B4 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B4f
+rabbit C2f Died of Old Age
+Rabbit C2 is Hungry
+RabbitC2f died of hunger
+Rabbit C2f ate
+Rabbit C2 f is ready to mate
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit C4f
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B4f
+Rabbit B5 is Hungry
+Rabbit B5 f is ready to mate
+Rabbit B1f is running away from: WolfC1
+Rabbit B1 is Hungry
+Rabbit B1 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit A3f
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B4f
+Rabbit C1 is Hungry
+Lion B5 is Hungry
+LionB5fis chasing: C3f
+Lion B0 is Hungry
+LionB0mis chasing: A2m
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: B1f
+Wolf C1 f is ready to mate
+Wolf B5m is running away from: LionB4
+Wolf B5 m is ready to mate
+Wolf C2 f is ready to mate
+Rabbit C4 is Hungry
+Rabbit C4f ate
+Rabbit C4 f is ready to mate
+Rabbit A3 is Hungry
+Rabbit A3 f is ready to mate
+Rabbit B4 is Hungry
+Rabbit B4 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B4f
+Rabbit A2 is Hungry
+Rabbit A2m ate
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit C4f
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B4f
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit B1 is Hungry
+Rabbit B1 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit A3f
+Rabbit B4 is Hungry
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B4f
+Rabbit C5 f was born!Father is B3 and Mother is B4
+Rabbit C1 is Hungry
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Lion B0 is Hungry
+LionB0mis chasing: C4f
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: B1f
+Wolf C1f ate!
+Wolf C1 f is ready to mate
+Wolf B5 m is ready to mate
+Wolf C2 f is ready to mate
+Rabbit C4 is Hungry
+Rabbit C4 f is ready to mate
+rabbit A3f Died of Old Age
+Rabbit A3 is Hungry
+RabbitA3f died of hunger
+Rabbit A3f ate
+Rabbit A3 f is ready to mate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+rabbit A1m Died of Old Age
+Rabbit A1 is Hungry
+RabbitA1m died of hunger
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit C4f
+Rabbit A2 is Hungry
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit C4f
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit B3 is Hungry
+Rabbit B3m ate
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B5f
+rabbit C1f Died of Old Age
+Rabbit C1 is Hungry
+RabbitC1f died of hunger
+Rabbit C5 is Hungry
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Lion B0 is Hungry
+LionB0mis chasing: C4f
+LionB0m ate: C4f
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 f is ready to mate
+Wolf B5 m is ready to mate
+Wolf C2 f is ready to mate
+Rabbit B4 is Hungry
+Rabbit B4f ate
+Rabbit A2m is running away from: LionB0
+Rabbit A2 is Hungry
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit B5f
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+Rabbit B4 is Hungry
+Rabbit B3 is Hungry
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B5f
+Rabbit C5 is Hungry
+Rabbit C5f ate
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 f is ready to mate
+Wolf B5 m is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A2m
+Wolf C2 f is ready to mate
+Rabbit B4 is Thirsty
+Rabbit B4 drank water
+Rabbit B4 is Hungry
+rabbit A2m Died of Old Age
+Rabbit A2 is Thirsty
+Rabbit A2 drank water
+Rabbit A2 is Hungry
+RabbitA2m died of hunger
+Rabbit A2 m is ready to mate
+Rabbit A2 m is approaching partner: Rabbit B5f
+Rabbit C0 is Thirsty
+Rabbit C0 drank water
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Thirsty
+Rabbit B5 drank water
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit A1 is Thirsty
+Rabbit A1 drank water
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+Rabbit B4 is Thirsty
+Rabbit B4 drank water
+Rabbit B4 is Hungry
+Rabbit B4 f is ready to mate
+Rabbit B3 is Thirsty
+Rabbit B3 drank water
+Rabbit B3 is Hungry
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B4f
+Rabbit C5 is Hungry
+Rabbit C5f ate
+Lion B5 is Thirsty
+Lion B5 drank water
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Lion B5 f is ready to mate
+Lion B4 is Thirsty
+Lion B4 drank water
+Lion B4 f is ready to mate
+Lion B0 is Thirsty
+Lion B0 drank water
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: B5m
+Lion A4 f is ready to mate
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 f is ready to mate
+Wolf B5 is Hungry
+Wolf B5m is chasing: C5f
+Wolf B5 m is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A1m
+Wolf C2 f is ready to mate
+Rabbit B4 is Thirsty
+Rabbit B4 drank water
+Rabbit B4 is Hungry
+Rabbit C0 is Thirsty
+Rabbit C0 drank water
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Thirsty
+Rabbit B5 drank water
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit A1 is Thirsty
+Rabbit A1 drank water
+Rabbit A1 is Hungry
+Rabbit A1m ate
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+rabbit B4f Died of Old Age
+Rabbit B4 is Thirsty
+Rabbit B4 drank water
+Rabbit B4 is Hungry
+RabbitB4f died of hunger
+Rabbit B4 f is ready to mate
+rabbit B3m Died of Old Age
+Rabbit B3 is Thirsty
+Rabbit B3 drank water
+Rabbit B3m is running away from: WolfC3
+Rabbit B3 is Hungry
+RabbitB3m died of hunger
+Rabbit B3m ate
+Rabbit B3 m is ready to mate
+Rabbit B3 m is approaching partner: Rabbit B5f
+Rabbit C5 is Hungry
+Lion B5 is Thirsty
+Lion B5 drank water
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Lion B5 f is ready to mate
+Lion B4 is Thirsty
+Lion B4 drank water
+Lion B4 is Hungry
+LionB4fis chasing: B5m
+LionB4f ate: B5m
+Lion B4 f is ready to mate
+Lion B0 is Thirsty
+Lion B0 drank water
+Lion B0 m is ready to mate
+Lion A3 f was born!Father is B0 and Mother is B4
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C2f
+Lion A4 f is ready to mate
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 f is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A1m
+Wolf C2 f is ready to mate
+rabbit B4f Died of Old Age
+Rabbit B4 is Thirsty
+Rabbit B4 drank water
+Rabbit B4 is Hungry
+RabbitB4f died of hunger
+Rabbit B4f ate
+Rabbit C0 is Thirsty
+Rabbit C0 drank water
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Thirsty
+Rabbit B5 drank water
+Rabbit B5 is Hungry
+Rabbit B5f ate
+Rabbit B5 f is ready to mate
+Rabbit A1 is Thirsty
+Rabbit A1 drank water
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+Rabbit C5 is Hungry
+Rabbit C5 f is ready to mate
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+Lion B5 f is ready to mate
+Lion B4 is Thirsty
+Lion B4 drank water
+Lion B0 is Thirsty
+Lion B0 drank water
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C2f
+Lion A4 f is ready to mate
+Wolf C3 is Hungry
+Wolf C3f is chasing: C0m
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: B5f
+Wolf C1 f is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A1m
+Wolf C2 f is ready to mate
+Rabbit C0 is Thirsty
+Rabbit C0 drank water
+Rabbit C0m is running away from: WolfC3
+Rabbit C0 is Hungry
+Rabbit C0m ate
+Rabbit C0 m is ready to mate
+Rabbit C0 m is approaching partner: Rabbit B5f
+Rabbit B5 is Hungry
+Rabbit B5 f is ready to mate
+Rabbit A1 is Thirsty
+Rabbit A1 drank water
+Rabbit A1 is Hungry
+Rabbit A1 m is ready to mate
+Rabbit A1 m is approaching partner: Rabbit B5f
+rabbit C5f Died of Old Age
+Rabbit C5 is Hungry
+RabbitC5f died of hunger
+Rabbit C5f ate
+Rabbit C5 f is ready to mate
+Lion B5 is Hungry
+LionB5fis chasing: B5f
+LionB5f ate: B5f
+Lion B5 f is ready to mate
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C2f
+Lion A4 f is ready to mate
+Wolf C3f ate!
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+Wolf C1f is chasing: A1m
+Wolf C1 f is ready to mate
+Wolf C2 is Hungry
+Wolf C2f is chasing: A1m
+Wolf C2 f is ready to mate
+rabbit A1m Died of Old Age
+Rabbit A1 is Thirsty
+Rabbit A1 drank water
+Rabbit A1 is Hungry
+RabbitA1m died of hunger
+Rabbit A1 m is ready to mate
+Not enough female Rabbits or Female Rabbit partners are not ready yet!
+Lion B5 f is ready to mate
+Lion B0 is Hungry
+LionB0mis chasing: C2f
+Lion B0 m is ready to mate
+Lion C4 m was born!Father is B0 and Mother is A4
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C2f
+Wolf C3 f is ready to mate
+Wolf C1 is Hungry
+WolfC1f died of hunger
+Wolf C1 f is ready to mate
+Wolf C2 is Hungry
+WolfC2f died of hunger
+Wolf C2 f is ready to mate
+Lion B5 f is ready to mate
+Lion B0 is Hungry
+LionB0mis chasing: C3f
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C3f
+Wolf C3 f is ready to mate
+Lion B5 f is ready to mate
+Lion B0 is Hungry
+LionB0mis chasing: C3f
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C3f
+Wolf C3 f is ready to mate
+Lion B5 f is ready to mate
+Lion B4 is Hungry
+LionB4fis chasing: C3f
+Lion B0 is Hungry
+LionB0mis chasing: C3f
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C3f
+Lion A3 is Hungry
+LionA3fis chasing: C3f
+Wolf C3f is running away from: LionB5
+Wolf C3 f is ready to mate
+Lion B5 f is ready to mate
+Lion B4 is Hungry
+LionB4fis chasing: C3f
+Lion B0 is Hungry
+LionB0mis chasing: C3f
+Lion B0 m is ready to mate
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4fis chasing: C3f
+Lion A3 is Hungry
+LionA3fis chasing: C3f
+Wolf C3 is Hungry
+WolfC3f died of hunger
+Wolf C3 f is ready to mate
+Lion B5 is Hungry
+LionB5f died of hunger
+Lion B5 f is ready to mate
+Lion B4 is Hungry
+LionB4f died of hunger
+Lion B0 is Hungry
+LionB0m died of hunger
+Lion B0 m is ready to mate
+No Female Lion Partner or Female Lion partners are not ready to mate Yet!
+Lion A4 is Thirsty
+Lion A4 drank water
+Lion A4 is Hungry
+LionA4f died of hunger
+Lion A3 is Hungry
+LionA3f died of hunger
+Lion C4 is Hungry
+LionC4m died of hunger

@@ -214,7 +214,7 @@ class Game:
         plt.legend()
         
         plt.savefig(path.join(game_folder,'plot_figures',str(name)+str(f_today)))
-        plt.show()
+        #plt.show()
 
     def run(self):
         while self.playing:
@@ -272,7 +272,7 @@ class Game:
             wolf_offspring = pygame.sprite.Sprite()
 
             wolf.life_time +=1
-            if wolf.life_time == wolf_death_timer:
+            if wolf.life_time == wolf_death_timer or wolf.hunger_limit <=0 or wolf.thirst_limit <=0:
                 wolf.kill()
                 print("Wolf " + str(wolf.name) + str(wolf.gender)+ " Died of Old Age")
 
@@ -396,7 +396,7 @@ class Game:
             rabbit_offspring = pygame.sprite.Sprite()
 
             rabbit.life_time +=1
-            if rabbit.life_time == rabbit_death_timer:
+            if rabbit.life_time == rabbit_death_timer or rabbit.hunger_limit <=0 or rabbit.thirst_limit <=0:
                 rabbit.kill()
                 print("rabbit " + str(rabbit.name) + str(rabbit.gender)+ " Died of Old Age")
                 
@@ -517,8 +517,9 @@ class Game:
             lion.thirst_limit -= lion_thirst_rate
             lion.hunger_limit -= lion_hunger_depletion_rate
             lion.reproduction_level -= lion_reproduction_rate
+            
             lion.life_time +=1
-            if lion.life_time == lion_death_timer:
+            if lion.life_time == lion_death_timer or lion.hunger_limit<=0 or lion.thirst_limit<=0:
                 lion.kill()
                 print("Lion " + str(lion.name) + str(lion.gender)+ " Died of Old Age")
 

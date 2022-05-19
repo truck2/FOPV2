@@ -5,11 +5,11 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Simulation Input Parameters')
 parser.add_argument('simulation_time', help='Enter the Time Allowed to Run The Simulation',nargs ='?',default = 200,type = int)
-parser.add_argument('distance_of_interation', help='How close should predator be before running away- smaller number to closer, larger number = further',nargs ='?',default = 2.00,type = float)
 parser.add_argument('num_lions', help='Enter the Number of Lions to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_wolves', help='Enter the Number of Wolves to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_rabbits', help='Enter the Number of Rabbits to be Spawned',nargs ='?',default = 15,type = int)
-parser.add_argument('grass_grow_time', help='Enter the Number of Rabbits to be Spawned',nargs ='?',default = 500000,type = int)
+parser.add_argument('distance_of_interation', help='How close should predator be before running away- smaller number to closer, larger number = further',nargs ='?',default = 2.00,type = float)
+parser.add_argument('grass_grow_time', help='The time takes for grass to regen',nargs ='?',default = 500000,type = int)
 parser.add_argument('lion_death_timer', help='Life Span of Lion',nargs ='?',default = 100,type = int)
 parser.add_argument('wolf_death_timer', help='Life Span of Wolf',nargs ='?',default = 60,type = int)
 parser.add_argument('rabbit_death_timer', help='Life Span of Rabbit',nargs ='?',default = 50,type = int)
@@ -68,7 +68,7 @@ wolf_death_timer = args.wolf_death_timer
 wolf_breeding_cooldown = args.wolf_breeding_cooldown #Large number = longer time for female wolves to be ready for mating 
 wolf_reproduction_rate = random.randint(1,5) #larger number = higher 
 wolf_mating_threshold = args.wolf_mating_threshold #ready for mating, higher number = ready faster
-wolf_hunger_depletion_rate = random.randint(1,5) #larger number = higher 
+wolf_hunger_depletion_rate = random.randint(1,10) #larger number = higher 
 wolf_hunger_threshold = args.wolf_hunger_threshold #  #starts activily seeking for food
 wolf_thirst_rate = random.randint(1,2) #larger number = higher 
 wolf_thirst_threshold = args.wolf_thirst_threshold #starts activily seeking for water
@@ -79,7 +79,7 @@ rabbit_death_timer = args.rabbit_death_timer
 rabbit_breeding_cooldown = args.rabbit_breeding_cooldown #Large number = longer time for female rabbits to be ready for mating 
 rabbit_reproduction_rate = random.randint(1,10) #larger number = higher 
 rabbit_mating_threshold = args.rabbit_mating_threshold #ready for mating, higher number = ready faster
-rabbit_hunger_depletion_rate = random.randint(5,20) #larger number = higher 
+rabbit_hunger_depletion_rate = random.randint(5,30) #larger number = higher 
 rabbit_hunger_threshold = args.rabbit_hunger_threshold  #starts activily seeking for food
 rabbit_thirst_threshold = args.rabbit_thirst_threshold #starts activily seeking for water
 rabbit_thirst_rate = random.randint(1,3) #larger number = higher 

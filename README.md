@@ -31,4 +31,4 @@ pygame.freetype
 logging
 
 ## Version information
-<18/05/2022> - final version of assignment for COMP1005
+<19/05/2022> - final version of assignment for COMP1005
