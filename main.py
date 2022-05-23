@@ -653,9 +653,13 @@ class Game:
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pygame.image.save(self.screen,"plot_state_images/plot"+str(f_today)+".jpg")
+                pygame.image.save(self.screen,"plot_state_images/plot"+str(f_today)+".jpg")   
+
+            if event.type == pygame.KEYDOWN:
+                if event.key ==pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
                 
-            
             
 g = Game()
 while True:
