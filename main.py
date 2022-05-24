@@ -293,13 +293,13 @@ class Game:
                     if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<95:
                         prey_rabbit.kill()
                         wolf.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
 
                 #eat if wolf's location is ontop of rabbit's location
                 if wolf.getlocation() == prey_rabbit.getlocation():
                     prey_rabbit.kill()
                     wolf.ate()
-                    print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                    print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
 
             #if wolves are hungry
             if wolf.hunger_limit <= wolf_hunger_threshold:
@@ -323,13 +323,13 @@ class Game:
                         if i == (prey_rabbit.x,prey_rabbit.y):
                             prey_rabbit.kill()
                             wolf.ate()
-                            print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                            print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
 
                     #or if prey is in the same location as wolf then eat
                     if wolf.getlocation() == prey_rabbit.getlocation():
                         prey_rabbit.kill()
                         wolf.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
 
                 else:
                     continue
@@ -553,11 +553,11 @@ class Game:
 
             
             if lion.thirst_limit <=lion_thirst_threshold: #if lion is thirst then we look for the nearst water.
-                print("Lion " +str(lion.name) + " is Thirsty")
+                print("Lion " +str(lion.name)+ str(lion.gender)+ " is Thirsty")
                 look_for_nearst_water(lion)
-                print("Lion " + str(lion.name)+ " drank water")
+                print("Lion " + str(lion.name) +str(lion.gender)+ " drank water")
             elif lion.thirst_limit <=0:
-                print("Lion" + str(lion.name) + " died of thirst")
+                print("Lion" + str(lion.name) +str(lion.gender)+ " died of thirst")
             
             if self.rabbit_group:
                 pos = pygame.math.Vector2(lion.x, lion.y)
@@ -588,7 +588,7 @@ class Game:
                 if lion.getlocation() == prey_wolf.getlocation():
                         prey_wolf.kill()
                         lion.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                        print("Lion "+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
 
             #start chasing prey if hungry
             if lion.hunger_limit <=lion_hunger_threshold: 
@@ -627,7 +627,7 @@ class Game:
                     if lion.getlocation() == prey.getlocation():
                         prey.kill()
                         lion.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey.name)+str(prey.gender))
 
                 else:
                     continue
