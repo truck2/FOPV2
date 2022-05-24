@@ -41,13 +41,24 @@ class Lion(pygame.sprite.Sprite):
     def getlocation(self):
         return (self.x, self.y)
     
-    def get_neighbors(self):
+    def get_neighbors(self,neighbour_option):
         self.neighbors = []
-        self.neighbors.append((self.x+1,self.y))
-        self.neighbors.append((self.x-1,self.y))
-        self.neighbors.append((self.x,self.y+1))
-        self.neighbors.append((self.x,self.y-1))
+        if neighbour_option == 0:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
 
+        elif neighbour_option == 1:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
+            self.neighbors.append((self.x+1,self.y+1))
+            self.neighbors.append((self.x-1,self.y-1))
+            self.neighbors.append((self.x+1,self.y-1))
+            self.neighbors.append((self.x-1,self.y+1))
+    
         return self.neighbors
             
     def collide_with_entity(self, dx=0, dy=0):
@@ -115,12 +126,23 @@ class Wolf(pygame.sprite.Sprite):
     def getlocation(self):
         return (self.x, self.y)
     
-    def get_neighbors(self):
+    def get_neighbors(self,neighbour_option):
         self.neighbors = []
-        self.neighbors.append((self.x+1,self.y))
-        self.neighbors.append((self.x-1,self.y))
-        self.neighbors.append((self.x,self.y+1))
-        self.neighbors.append((self.x,self.y-1))
+        if neighbour_option == 0:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
+
+        elif neighbour_option == 1:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
+            self.neighbors.append((self.x+1,self.y+1))
+            self.neighbors.append((self.x-1,self.y-1))
+            self.neighbors.append((self.x+1,self.y-1))
+            self.neighbors.append((self.x-1,self.y+1))
 
         return self.neighbors
 
@@ -196,12 +218,23 @@ class Rabbit(pygame.sprite.Sprite):
             self.x += dx
             self.y += dy
 
-    def get_neighbors(self):
+    def get_neighbors(self,neighbour_option):
         self.neighbors = []
-        self.neighbors.append((self.x+1,self.y))
-        self.neighbors.append((self.x-1,self.y))
-        self.neighbors.append((self.x,self.y+1))
-        self.neighbors.append((self.x,self.y-1))
+        if neighbour_option == 0:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
+
+        elif neighbour_option == 1:
+            self.neighbors.append((self.x+1,self.y))
+            self.neighbors.append((self.x-1,self.y))
+            self.neighbors.append((self.x,self.y+1))
+            self.neighbors.append((self.x,self.y-1))
+            self.neighbors.append((self.x+1,self.y+1))
+            self.neighbors.append((self.x-1,self.y-1))
+            self.neighbors.append((self.x+1,self.y-1))
+            self.neighbors.append((self.x-1,self.y+1))
 
         return self.neighbors
 

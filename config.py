@@ -5,6 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Simulation Input Parameters')
 parser.add_argument('simulation_time', help='Enter the Time Allowed to Run The Simulation',nargs ='?',default = 200,type = int)
+parser.add_argument('neighbourhood_option', help = 'Moore = 1, Von Neumann neighbourhood = 0',nargs = '?',default = 0,type = int )
 parser.add_argument('num_lions', help='Enter the Number of Lions to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_wolves', help='Enter the Number of Wolves to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_rabbits', help='Enter the Number of Rabbits to be Spawned',nargs ='?',default = 15,type = int)
@@ -42,16 +43,18 @@ DARKGREY = (40,40,40)
 
 #Game settings
 
-WIDTH = 1920
-HEIGHT = 1080
-FPS = 60
+WIDTH = 1280
+HEIGHT = 720
+FPS = 1
 TITLE = "Animal Kindom"
 simulation_time = args.simulation_time
 distance_of_interation = args.distance_of_interation
+neighbourhood_option = args.neighbourhood_option
 
 #Game inputs
 max_hunger_limit = 100
 max_thirst_limit = 100
+
 
 
 #lion

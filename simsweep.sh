@@ -24,7 +24,7 @@ do
         do
             for r in `seq $rabbit_low $rabbit_step $rabbit_high`;
             do
-            python3 main.py "$t" "$l" "$w" "$r" 
+            python3 main.py 150 0 "$t" "$l" "$w" "$r" &
             done 
         done
     done  

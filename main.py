@@ -87,7 +87,7 @@ def look_for_nearst_water(animal):
             elif animal_location[1] > animal.closest_water[1]:
                 animal.move(0,-1)
 
-            neigbors = animal.get_neighbors()
+            neigbors = animal.get_neighbors(neighbourhood_option)
             for i in neigbors:
                 if i in water_sources:
                     animal.drink()
@@ -288,18 +288,18 @@ class Game:
             if self.rabbit_group:
                 pos = pygame.math.Vector2(wolf.x, wolf.y)
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                wolf_neighbors = wolf.get_neighbors()
+                wolf_neighbors = wolf.get_neighbors(neighbourhood_option)
                 for i in wolf_neighbors:
                     if i == (prey_rabbit.x,prey_rabbit.y) and wolf.hunger_limit<95:
                         prey_rabbit.kill()
                         wolf.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
+                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
 
                 #eat if wolf's location is ontop of rabbit's location
                 if wolf.getlocation() == prey_rabbit.getlocation():
                     prey_rabbit.kill()
                     wolf.ate()
-                    print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
+                    print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
 
             #if wolves are hungry
             if wolf.hunger_limit <= wolf_hunger_threshold:
@@ -318,18 +318,18 @@ class Game:
                     print("Wolf " +str(wolf.name) + str(wolf.gender)+ " is chasing: "+ str(prey_rabbit.name)+str(prey_rabbit.gender))
                     
                     #if prey is a neighbour then eat 
-                    wolf_neighbors = wolf.get_neighbors()
+                    wolf_neighbors = wolf.get_neighbors(neighbourhood_option)
                     for i in wolf_neighbors:
                         if i == (prey_rabbit.x,prey_rabbit.y):
                             prey_rabbit.kill()
                             wolf.ate()
-                            print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
+                            print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
 
                     #or if prey is in the same location as wolf then eat
                     if wolf.getlocation() == prey_rabbit.getlocation():
                         prey_rabbit.kill()
                         wolf.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate: " + str(prey_rabbit.name) + str(prey_rabbit.gender))
+                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
 
                 else:
                     continue
@@ -367,7 +367,7 @@ class Game:
             
                     chase(wolf,partner)
 
-                    wolf_neighbors = wolf.get_neighbors()
+                    wolf_neighbors = wolf.get_neighbors(neighbourhood_option)
                     for i in wolf_neighbors:
                         if i == (partner.x,partner.y):
                             randx = random.randint(-1,1); randy= random.randint(-1,1)
@@ -399,7 +399,7 @@ class Game:
                 else: 
                     x = random.randint(-1,1); y= random.randint(-1,1)
                     wolf.move(x,y)
-
+            
             else: #random movement
                 x = random.randint(-1,1); y= random.randint(-1,1)
                 wolf.move(x,y)
@@ -443,7 +443,7 @@ class Game:
             #run away from wolves, if they are nearby
             if self.wolf_group:
                 pos = pygame.math.Vector2(rabbit.x, rabbit.y)
-                predator_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
+                predator_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y))) #lamda function sourced from github - see references in report 
                 if pos.distance_to(pygame.math.Vector2(predator_wolf.x, predator_wolf.y)) <= distance_of_interation*GRIDWIDTH:
                     run_away(rabbit,predator_wolf)
                     print("Rabbit "+ str(rabbit.name)+ str(rabbit.gender)+ " is running away from: " +"Wolf"+ str(predator_wolf.name)) 
@@ -496,7 +496,7 @@ class Game:
                 if partner: #if partner exists 
                     chase(rabbit,partner)
                     print("Rabbit " +str(rabbit.name) +" "+ str(rabbit.gender) +" is approaching partner: "+"Rabbit " +str(partner.name)+str(partner.gender))
-                    rabbit_neighbors = rabbit.get_neighbors()
+                    rabbit_neighbors = rabbit.get_neighbors(neighbourhood_option)
                     for i in rabbit_neighbors:
                         if i == (partner.x,partner.y):
                             randx = random.randint(-1,1); randy= random.randint(-1,1)
@@ -553,16 +553,16 @@ class Game:
 
             
             if lion.thirst_limit <=lion_thirst_threshold: #if lion is thirst then we look for the nearst water.
-                print("Lion " +str(lion.name)+ str(lion.gender)+ " is Thirsty")
+                print("Lion " +str(lion.name) + " is Thirsty")
                 look_for_nearst_water(lion)
-                print("Lion " + str(lion.name) +str(lion.gender)+ " drank water")
+                print("Lion " + str(lion.name)+ " drank water")
             elif lion.thirst_limit <=0:
-                print("Lion" + str(lion.name) +str(lion.gender)+ " died of thirst")
+                print("Lion" + str(lion.name) + " died of thirst")
             
             if self.rabbit_group:
                 pos = pygame.math.Vector2(lion.x, lion.y)
                 prey_rabbit = min([e for e in self.rabbit_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                lion_neighbors = lion.get_neighbors()
+                lion_neighbors = lion.get_neighbors(neighbourhood_option)
                 for i in lion_neighbors:
                     if i == (prey_rabbit.x,prey_rabbit.y) and lion.hunger_limit<95:  
                         prey_rabbit.kill
@@ -578,7 +578,7 @@ class Game:
             if self.wolf_group:
                 pos = pygame.math.Vector2(lion.x, lion.y)
                 prey_wolf = min([e for e in self.wolf_group], key=lambda e: pos.distance_to(pygame.math.Vector2(e.x, e.y)))
-                lion_neighbors = lion.get_neighbors()
+                lion_neighbors = lion.get_neighbors(neighbourhood_option)
                 for i in lion_neighbors:
                     if i == (prey_wolf.x,prey_wolf.y) and lion.hunger_limit<95:  
                         prey_wolf.kill
@@ -588,7 +588,7 @@ class Game:
                 if lion.getlocation() == prey_wolf.getlocation():
                         prey_wolf.kill()
                         lion.ate()
-                        print("Lion "+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_wolf.name)+str(prey_wolf.gender))
+                        print("Lion " +str(lion.name) + str(lion.gender)+ " ate: ")
 
             #start chasing prey if hungry
             if lion.hunger_limit <=lion_hunger_threshold: 
@@ -617,7 +617,7 @@ class Game:
                     chase(lion,prey)
                     print("Lion"+str(lion.name)+str(lion.gender)+ "is chasing: "+str(prey.name)+str(prey.gender))
 
-                    lion_neighbors = lion.get_neighbors()
+                    lion_neighbors = lion.get_neighbors(neighbourhood_option)
                     for i in lion_neighbors:
                         if i == (prey.x,prey.y):
                             prey.kill()
@@ -627,7 +627,7 @@ class Game:
                     if lion.getlocation() == prey.getlocation():
                         prey.kill()
                         lion.ate()
-                        print("Lion"+str(lion.name)+str(lion.gender)+ " ate: "+str(prey.name)+str(prey.gender))
+                        print("Lion " +str(lion.name) + str(lion.gender)+ " ate!")
 
                 else:
                     continue
@@ -656,7 +656,7 @@ class Game:
                 if partner: #if partner exisits 
                     chase(lion,partner)
 
-                    lion_neighbors = lion.get_neighbors()
+                    lion_neighbors = lion.get_neighbors(neighbourhood_option)
                     for i in lion_neighbors:
                         if i == (partner.x,partner.y):
                             randx = random.randint(-1,1); randy= random.randint(-1,1)
