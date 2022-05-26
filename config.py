@@ -45,7 +45,7 @@ DARKGREY = (40,40,40)
 
 WIDTH = 1280
 HEIGHT = 720
-FPS = 1
+FPS = 60
 TITLE = "Animal Kindom"
 simulation_time = args.simulation_time
 distance_of_interation = args.distance_of_interation
