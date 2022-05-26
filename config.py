@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Simulation Input Parameters')
 parser.add_argument('simulation_time', help='Enter the Time Allowed to Run The Simulation',nargs ='?',default = 200,type = int)
-parser.add_argument('neighbourhood_option', help = 'Moore = 1, Von Neumann neighbourhood = 0',nargs = '?',default = 0,type = int )
+parser.add_argument('neighbourhood_option', help='Moore = 1, Von Neumann neighbourhood = 0',nargs = '?',default = 0,type = int )
 parser.add_argument('num_lions', help='Enter the Number of Lions to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_wolves', help='Enter the Number of Wolves to be Spawned',nargs ='?',default = 4,type = int)
 parser.add_argument('num_rabbits', help='Enter the Number of Rabbits to be Spawned',nargs ='?',default = 15,type = int)
@@ -74,7 +74,7 @@ wolf_death_timer = args.wolf_death_timer
 wolf_breeding_cooldown = args.wolf_breeding_cooldown #Large number = longer time for female wolves to be ready for mating 
 wolf_reproduction_rate = random.randint(1,5) #larger number = higher 
 wolf_mating_threshold = args.wolf_mating_threshold #ready for mating, higher number = ready faster
-wolf_hunger_depletion_rate = random.randint(1,args.lion_hunger_upper_value) #larger number = higher 
+wolf_hunger_depletion_rate = random.randint(1,args.wolf_hunger_upper_value) #larger number = higher 
 wolf_hunger_threshold = args.wolf_hunger_threshold #  #starts activily seeking for food
 wolf_thirst_rate = random.randint(1,2) #larger number = higher 
 wolf_thirst_threshold = args.wolf_thirst_threshold #starts activily seeking for water

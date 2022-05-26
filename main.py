@@ -101,7 +101,7 @@ class Game:
         self.load_data()
         self.time = 0
         self.playing = True
-        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation),"Grass grow time(ticks): "+str(grass_grow_time)],
+        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"neighbourhood_option: "+ str(neighbourhood_option),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation),"Grass grow time(ticks): "+str(grass_grow_time)],
                      [" ","life span: ",str(lion_death_timer),str(wolf_death_timer),str(rabbit_death_timer)],
                      [" ","Breeding Cooldown",str(lion_breeding_cooldown),str(wolf_breeding_cooldown),str(rabbit_breeding_cooldown)],
                      [" "," Mating Threshold",str(lion_mating_threshold),str(wolf_mating_threshold),str(rabbit_mating_threshold)],
