@@ -33,6 +33,13 @@ pygame.freetype
 logging
 from datetime import datetime
 
+##usage
+To simply run:
+
+python3 main.py
+
+For more complex usage infor refer to user guide. 
+
 ## Version information
 <19/05/2022> - Bug fixed-version of assignment for COMP1005
 <25/05/2022> - Final version of assignment for COMP1005
