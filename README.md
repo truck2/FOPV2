@@ -11,12 +11,14 @@ Folders:
 - plot_figures - contains graph for the simulations  
 - plot_state_images - contains images capturing the state when the simulation ends
 - simulations - Contains a CSV file with population info for the animals
+- Report Experiment Results - constains reuslt from the runs for experiments 1 and 2
 
 Files:
 - config.py : config.py holds all neccessary game inputs and handles command line argument parsing 
 - main.py : main.py is the main file for pygame which holds the Game class and various functions 
 - sprites.py: sprites.py holds all the animal classes and their functions
-- map.txt: a txt file of a map which is user amendable. 
+- map.txt: a txt file of a map which is user amendable
+- map2.txt: a txt file of a map which is useer amendable
 
 ## Dependencies
 
@@ -29,7 +31,9 @@ random
 pygame
 pygame.freetype
 logging
+from datetime import datetime
 
 ## Version information
-<19/05/2022> - Bug fixed- version of assignment for COMP1005
+<19/05/2022> - Bug fixed-version of assignment for COMP1005
 <25/05/2022> - Final version of assignment for COMP1005
+<29/05/2022> - Final Simulation Run before submission

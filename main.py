@@ -101,7 +101,7 @@ class Game:
         self.load_data()
         self.time = 0
         self.playing = True
-        self.data = [["Inputs","Simulation Time: "+str(simulation_time),"neighbourhood_option: "+ str(neighbourhood_option),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation),"Grass grow time(ticks): "+str(grass_grow_time)],
+        self.data = [["Inputs","Map used: "+str(args.map),"Simulation Time: "+str(simulation_time),"neighbourhood_option: "+ str(neighbourhood_option),"Lions: "+str(num_lions),"Wolves: "+str(num_wolves),"Rabbits: "+str(num_rabbits),"distance of interaction: "+str(distance_of_interation),"Grass grow time(ticks): "+str(grass_grow_time)],
                      [" ","life span: ",str(lion_death_timer),str(wolf_death_timer),str(rabbit_death_timer)],
                      [" ","Breeding Cooldown",str(lion_breeding_cooldown),str(wolf_breeding_cooldown),str(rabbit_breeding_cooldown)],
                      [" "," Mating Threshold",str(lion_mating_threshold),str(wolf_mating_threshold),str(rabbit_mating_threshold)],
@@ -112,7 +112,7 @@ class Game:
     def load_data(self):
         self.map_data =[]
         game_folder = path.dirname(__file__)
-        with open(path.join(game_folder,'map.txt'),'r') as file:
+        with open(path.join(game_folder,args.map),'r') as file:
             for line in file:
                 self.map_data.append(line.strip())
         file.close()
@@ -346,7 +346,6 @@ class Game:
     
             now = pygame.time.get_ticks()
             breeding_cooldown = wolf.breedingCooldown
-            #print(str(wolf.name)+ " " + str(now) +" "+ str(wolf.time) +" "+ str(breeding_cooldown)+" "+ str(wolf.can_breed))
             if now-wolf.time >= int(breeding_cooldown):
                 wolf.can_breed = True
                 wolf.mated = False
@@ -572,7 +571,7 @@ class Game:
                 if lion.getlocation() == prey_rabbit.getlocation():
                         prey_rabbit.kill()
                         lion.ate()
-                        print("Wolf " +str(wolf.name) + str(wolf.gender)+ " ate!")
+                        print("Lion "+str(lion.name)+str(lion.gender)+ " ate: "+str(prey_rabbit.name)+str(prey_rabbit.gender))
 
                 
             if self.wolf_group:

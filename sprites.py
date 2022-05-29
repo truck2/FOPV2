@@ -1,3 +1,6 @@
+#Student name: Ben Huang
+#Student ID: 21020526
+
 import pygame
 from config import *
 import random
